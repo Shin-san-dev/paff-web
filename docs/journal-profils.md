@@ -61,3 +61,7 @@ Le profil Nicolas de **grateful-warthog-543** n’avait pas de `badgeIds` : l’
 La nouvelle présentation a été contrôlée sur le profil réel, badge inclus : aucun défilement horizontal ou vertical à **1440 × 754**, **375 × 667** et **320 × 568**. Le sélecteur d’avatar reste dans la fenêtre visible au petit format sans agrandir la page. Le contenu reste libre de s’étendre si un zoom d’accessibilité ou de futurs contenus l’exigent : aucune hauteur forcée ni contenu coupé.
 
 Après cette correction, `npm run check` passe avec **240 tests / 24 fichiers**, lint et build. La fermeture au clavier et le retour du focus au bouton d’avatar ont aussi été vérifiés dans le navigateur.
+
+### Mise en production — 13 septembre 2026
+
+À la demande de l’utilisateur, le backend de cette version (`db86c50`) a été déployé sur **tough-gecko-249** avec `npx convex deploy` : schéma validé, aucun index supprimé. `npx convex run migrations:initializeLaunchProfiles '{}' --prod` a ensuite mis à jour les **cinq profils existants** (Nicolas, Adrien, Bru, Pierre, Quentin) avec le badge « Premier jour » et l’avatar par défaut lorsque nécessaire. Résultat : `updated: 5, total: 5`. L’attribution des cinq membres en production est donc réalisée ; les réserves ci-dessus décrivent les essais antérieurs.
