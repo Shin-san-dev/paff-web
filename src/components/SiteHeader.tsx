@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuthSession } from '../auth/authSession'
+import { PlayerLink } from '../features/players/PlayerLink'
 import './SiteHeader.css'
 
 export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
@@ -27,6 +28,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       <nav className="site-bar__nav" aria-label="Navigation principale">
         <NavLink to="/home">Accueil</NavLink>
         <NavLink to="/cards">Cartes</NavLink>
+        <NavLink to="/journal">Journal</NavLink>
         {status === 'authenticated' ? (
           <><NavLink to="/decks">Mes decks</NavLink><NavLink to="/lobby">Lobby</NavLink></>
         ) : null}
@@ -37,7 +39,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           <span>Session…</span>
         ) : status === 'authenticated' ? (
           <>
-            <span className="site-bar__player">{player?.displayName}</span>
+            {player && <PlayerLink className="site-bar__player" userId={player.userId} displayName={player.displayName} />}
             <button type="button" onClick={handleSignOut} disabled={isSigningOut}>
               {isSigningOut ? 'Déconnexion…' : 'Se déconnecter'}
             </button>

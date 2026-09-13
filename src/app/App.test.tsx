@@ -8,6 +8,7 @@ import {
   type AuthSessionValue,
 } from '../auth/authSession'
 import { App } from './App'
+import type { Id } from '../../convex/_generated/dataModel'
 
 vi.mock('../pages/CardsPage', () => ({
   CardsPage: () => <main><h1>Les cartes de PAFF</h1></main>,
@@ -21,6 +22,7 @@ vi.mock('../pages/LobbyPage', () => ({ LobbyPage: () => <main><h1>Lobby</h1></ma
 vi.mock('../pages/GamePage', () => ({ GamePage: () => <main><h1>Partie</h1></main> }))
 
 const player = {
+  userId: 'user-1' as Id<'users'>,
   loginId: 'joueur.un',
   displayName: 'Joueur Un',
   role: 'player' as const,
@@ -57,7 +59,7 @@ function StatefulSession({ children }: { children: ReactNode }) {
 }
 
 describe('public and private routing', () => {
-  it.each(['/lobby', '/lobby/game-1'])('protects multiplayer route %s', (path) => {
+  it.each(['/lobby', '/lobby/game-1', '/players/user-1'])('protects member route %s', (path) => {
     renderApp(path)
     expect(screen.getByRole('heading', { name: 'Connexion' })).toBeVisible()
   })
@@ -80,6 +82,16 @@ describe('public and private routing', () => {
   it('allows a visitor to open the card catalogue', () => {
     renderApp('/cards')
     expect(screen.getByRole('heading', { name: 'Les cartes de PAFF' })).toBeVisible()
+  })
+
+  it('opens the journal publicly with its launch entry and date', async () => {
+    renderApp('/home')
+    await userEvent.click(screen.getByRole('link', { name: 'Journal' }))
+    expect(screen.getByRole('heading', { name: 'Le Journal de PAFF' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Première version jouable' })).toBeVisible()
+    expect(screen.getByText('11 septembre 2026')).toHaveAttribute('datetime', '2026-09-11')
+    expect(screen.getByText(/deux factions disponibles/)).toHaveTextContent('Gobelins et Céphozie')
+    expect(screen.getByRole('link', { name: 'Journal' })).toHaveAttribute('aria-current', 'page')
   })
 
   it('keeps the card catalogue available to a player', () => {
@@ -137,6 +149,7 @@ describe('public navigation and session', () => {
   it('offers decks and logout to an authenticated player', () => {
     renderApp('/home', { status: 'authenticated', player })
     expect(screen.getByText('Joueur Un')).toBeVisible()
+    expect(screen.getByRole('link', { name: 'Profil de Joueur Un' })).toHaveAttribute('href', '/players/user-1')
     expect(screen.getByRole('link', { name: 'Mes decks' })).toBeVisible()
     expect(screen.getByRole('link', { name: 'Lobby' })).toBeVisible()
     expect(screen.getByRole('link', { name: 'Cartes' })).toBeVisible()

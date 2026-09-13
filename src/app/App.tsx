@@ -9,11 +9,15 @@ import { LoginPage } from '../pages/LoginPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { LobbyPage } from '../pages/LobbyPage'
 import { GamePage } from '../pages/GamePage'
+import { JournalPage } from '../pages/JournalPage'
+import { PlayerProfilePage } from '../pages/PlayerProfilePage'
 
 export function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate replace to="/home" />} />
+      <Route path="/journal" element={<JournalPage />} />
+      <Route path="/players/:userId" element={<ProtectedRoute><RouteErrorBoundary><PlayerProfilePage /></RouteErrorBoundary></ProtectedRoute>} />
       <Route
         path="/login"
         element={

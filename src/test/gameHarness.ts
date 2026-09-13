@@ -6,6 +6,7 @@ import * as decks from '../../convex/decks'
 import * as players from '../../convex/players'
 import * as catalogue2026 from '../../convex/catalogue2026'
 import * as manual from '../../convex/manual'
+import * as migrations from '../../convex/migrations'
 type Row = Record<string, unknown> & { _id: string }
 
 export function createGameHarness() {
@@ -21,8 +22,9 @@ export function createGameHarness() {
   let serial = 0
   const row = (id: string) => Object.values(tables).flat().find((item) => item._id === id) ?? null
   const db = {
+    normalizeId: (table: string, id: string) => table === 'users' && /^user-\d+$/.test(id) ? id : null,
     get: async (id: string) => structuredClone(row(id)),
-    query: (table: string) => ({ withIndex: (_name: string, filter: (q: unknown) => unknown) => {
+    query: (table: string) => ({ collect: async () => structuredClone(tables[table]), withIndex: (_name: string, filter: (q: unknown) => unknown) => {
       const values: Record<string, unknown> = {}
       const q = { eq: (field: string, value: unknown) => { values[field] = value; return q } }
       filter(q)
@@ -33,7 +35,7 @@ export function createGameHarness() {
     patch: async (id: string, fields: Record<string, unknown>) => { Object.assign(row(id)!, structuredClone(fields)) },
     delete: async (id: string) => { for (const rows of Object.values(tables)) { const index = rows.findIndex((item) => item._id === id); if (index >= 0) rows.splice(index, 1) } },
   }
-  const modules = { games, decks, players, catalogue2026, manual }
+  const modules = { games, decks, players, catalogue2026, manual, migrations }
   async function invoke(module: keyof typeof modules, name: string, user: number, args: Record<string, unknown> = {}): Promise<unknown> {
     const ctx = { db, auth: { getUserIdentity: async () => user ? { subject: `user-${user}|session` } : null } } as unknown as MutationCtx
     const snapshot = structuredClone(tables)

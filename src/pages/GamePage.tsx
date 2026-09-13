@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../convex/_generated/api'
 import type { Id } from '../../convex/_generated/dataModel'
 import { SiteHeader } from '../components/SiteHeader'
+import { PlayerLink } from '../features/players/PlayerLink'
 import { getDeckStats, type Deck } from '../features/decks/deckStats'
 import { ManualBattle } from '../features/game/ManualBattle'
 import { SpectatorBattle } from '../features/game/SpectatorBattle'
@@ -116,5 +117,8 @@ function PlayerRoom({ game, decks, onLeave }: { game: Game; decks?: Deck[]; onLe
 function PlayerSeat({ player, phase }: { player?: GamePlayer; phase: Game['phase'] }) {
   const ready = phase === 'deck_selection' ? player?.deckChosen : phase === 'preparation' ? player?.preparationReady : phase === 'deployment' ? player?.deploymentReady : Boolean(player)
   const status = !player ? 'En attente d’un joueur' : phase === 'deck_selection' ? ready ? 'Deck choisi' : 'Choisit son deck…' : phase === 'preparation' ? ready ? 'Unités choisies' : 'Choisit ses unités…' : phase === 'initiative' ? 'Jet d’initiative' : phase === 'deployment' ? ready ? 'Déploiement terminé' : 'Déploiement en cours' : player.seat === 0 ? 'Hôte de la table' : 'A rejoint la table'
-  return <article className={`game-seat${player ? '' : ' game-seat--empty'}`}><div className="game-avatar" aria-hidden="true">{player?.displayName.slice(0, 1) ?? '+'}</div><div><h2>{player?.displayName ?? 'Place libre'}{player?.isMe && <span>Vous</span>}</h2><p className={ready ? 'is-ready' : ''} role="status">{ready && <span aria-hidden="true">✓ </span>}{status}</p></div></article>
+  return <article className={`game-seat${player ? '' : ' game-seat--empty'}`}>
+    {player ? <PlayerLink className="game-avatar" userId={player.userId} displayName={player.displayName}><span aria-hidden="true">{player.displayName.slice(0, 1)}</span></PlayerLink> : <div className="game-avatar" aria-hidden="true">+</div>}
+    <div><h2>{player ? <PlayerLink userId={player.userId} displayName={player.displayName} /> : 'Place libre'}{player?.isMe && <span>Vous</span>}</h2><p className={ready ? 'is-ready' : ''} role="status">{ready && <span aria-hidden="true">✓ </span>}{status}</p></div>
+  </article>
 }

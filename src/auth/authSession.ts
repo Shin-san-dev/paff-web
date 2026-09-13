@@ -1,6 +1,8 @@
 import { createContext, useContext } from 'react'
+import type { Id } from '../../convex/_generated/dataModel'
 
 export type Player = {
+  userId: Id<'users'>
   loginId: string
   displayName: string
   role: 'player' | 'admin'

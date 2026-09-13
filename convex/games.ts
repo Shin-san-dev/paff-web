@@ -60,7 +60,7 @@ export const listLobby = query({
     const watchable = await Promise.all(battles.filter((game) => game._id !== current?.gameId).map(async (game) => ({
       id: game._id, name: game.name, startedAt: game.battleStartedAt ?? game.createdAt,
       turn: game.battle?.turn ?? 1,
-      players: (await members(ctx, game._id)).sort((a, b) => a.seat - b.seat).map((member) => ({ displayName: member.displayName, factionName: member.factionName ?? null })),
+      players: (await members(ctx, game._id)).sort((a, b) => a.seat - b.seat).map((member) => ({ userId: member.userId, displayName: member.displayName, factionName: member.factionName ?? null })),
     })))
     return {
       currentGame: currentGame ? { id: currentGame._id, name: currentGame.name, phase: currentGame.phase } : null,
@@ -99,7 +99,7 @@ export const get = query({
         // Deployed units are public in the new alternating setup. Unplayed cards stay private.
         const reveal = game.phase === 'battle' || (Boolean(game.setup) && game.phase === 'deployment')
         return {
-          id: member._id, displayName: member.displayName, seat: member.seat, isMe,
+          id: member._id, userId: member.userId, displayName: member.displayName, seat: member.seat, isMe,
           deckChosen: member.deckId !== undefined, deploymentReady: member.deploymentReady,
           preparationReady: member.preparationReady ?? false,
           preparationCount: prepared,

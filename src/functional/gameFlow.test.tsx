@@ -30,13 +30,36 @@ vi.mock('../auth/authSession', async () => {
   const { FunctionalClientContext } = await import('../test/functionalClient')
   return { useAuthSession: () => {
     const client = useContext(FunctionalClientContext)!
-    return { status: 'authenticated', player: { displayName: `Joueur ${client.user}` }, signOut: vi.fn() }
+    return { status: 'authenticated', player: { userId: `user-${client.user}`, displayName: `Joueur ${client.user}` }, signOut: vi.fn() }
   } }
 })
 
 afterEach(() => vi.restoreAllMocks())
 
 describe('functional two-player journey with real game handlers', () => {
+  it('opens an existing player profile from the table and returns without leaving the game', async () => {
+    const h = createGameHarness()
+    const gameId = await h.readyFor('waiting')
+    await h.invoke('players', 'setPresentation', 0, { userId: 'user-2', badgeIds: ['first-version'] })
+    const transport = createFunctionalTransport(h)
+    const mutate = vi.spyOn(transport, 'mutate')
+    const before = structuredClone(h.tables)
+    render(<FunctionalClientContext.Provider value={{ user: 1, transport }}><MemoryRouter initialEntries={[`/lobby/${gameId}`]}><App /></MemoryRouter></FunctionalClientContext.Provider>)
+    const seats = await screen.findByLabelText('Joueurs à la table')
+    const links = within(seats).getAllByRole('link', { name: 'Profil de Joueur 2' })
+    expect(links).toHaveLength(2)
+    links.forEach((link) => expect(link).toHaveAttribute('href', '/players/user-2'))
+    await userEvent.click(links[0])
+    expect(await screen.findByRole('heading', { level: 1, name: 'Joueur 2' })).toBeVisible()
+    expect(screen.getByRole('img', { name: 'Avatar de Joueur 2' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Présent depuis la première version' })).toBeVisible()
+    await userEvent.click(screen.getByRole('link', { name: /Retour au lobby/ }))
+    await userEvent.click(await screen.findByRole('link', { name: /Reprendre la partie/ }))
+    expect(await screen.findByRole('heading', { level: 1, name: 'Partie de Joueur 1' })).toBeVisible()
+    expect(mutate).not.toHaveBeenCalled()
+    expect(h.tables).toEqual(before)
+  })
+
   it('keeps private preparation, corrects deployment, and opens the shared manual board', async () => {
     const transport = createFunctionalTransport(createGameHarness())
     const { tables } = transport.harness

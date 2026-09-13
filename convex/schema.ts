@@ -13,6 +13,8 @@ export default defineSchema({
     displayName: v.string(),
     role: v.union(v.literal('player'), v.literal('admin')),
     active: v.boolean(),
+    avatarPath: v.optional(v.string()),
+    badgeIds: v.optional(v.array(v.string())),
   })
     .index('by_user_id', ['userId'])
     .index('by_login_id', ['loginId']),

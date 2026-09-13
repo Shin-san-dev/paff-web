@@ -68,6 +68,7 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
     return {
       status: 'authenticated',
       player: {
+        userId: currentPlayer.userId,
         loginId: currentPlayer.loginId,
         displayName: currentPlayer.displayName,
         role: currentPlayer.role,

@@ -30,7 +30,7 @@ vi.mock('../auth/authSession', async () => {
   const { FunctionalClientContext } = await import('../test/functionalClient')
   return { useAuthSession: () => {
     const client = useContext(FunctionalClientContext)!
-    return { status: 'authenticated', player: { displayName: `Joueur ${client.user}` }, signOut: vi.fn() }
+    return { status: 'authenticated', player: { userId: `user-${client.user}`, displayName: `Joueur ${client.user}` }, signOut: vi.fn() }
   } }
 })
 

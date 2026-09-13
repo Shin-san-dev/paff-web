@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../../convex/_generated/api'
 import type { Id } from '../../convex/_generated/dataModel'
 import { SiteHeader } from '../components/SiteHeader'
+import { PlayerLink } from '../features/players/PlayerLink'
 import { GameConnection } from '../features/game/GameConnection'
 import { gameError } from '../features/game/gameError'
 import { phaseNames, type Lobby } from '../features/game/types'
@@ -61,7 +62,7 @@ export function LobbyContent({ lobby, onEnter }: { lobby: Lobby | undefined; onE
           {!lobby.watchable.length ? <p className="game-empty">Aucune bataille à regarder pour le moment.</p> : <section className="lobby-rooms" aria-label="Batailles à regarder">
             {lobby.watchable.map((battle) => <article className="lobby-room" key={battle.id}>
               <div className="lobby-room__mark" aria-hidden="true">{battle.turn}<span>tour</span></div>
-              <div><span className="lobby-room__state">En cours · Tour {battle.turn}</span><h3>{battle.name}</h3><p>{battle.players.map((player) => `${player.displayName}${player.factionName ? ` (${player.factionName})` : ''}`).join(' · ')}</p></div>
+              <div><span className="lobby-room__state">En cours · Tour {battle.turn}</span><h3>{battle.name}</h3><p>{battle.players.map((player, index) => <span key={player.userId}>{index > 0 && ' · '}<PlayerLink userId={player.userId} displayName={player.displayName} />{player.factionName && ` (${player.factionName})`}</span>)}</p></div>
               <Link className="ui-button" to={`/lobby/${battle.id}`} aria-label={`Regarder ${battle.name}`}>Regarder <span aria-hidden="true">→</span></Link>
             </article>)}
           </section>}
