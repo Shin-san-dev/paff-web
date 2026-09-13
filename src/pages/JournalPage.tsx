@@ -9,7 +9,6 @@ export function JournalPage() {
       <header className="community-heading">
         <p className="eyebrow">Notre carnet de bord</p>
         <h1>Le Journal de PAFF</h1>
-        <p>Les petits et grands moments d’un jeu qui grandit entre amis.</p>
       </header>
       <ol className="journal-entries" aria-label="Les moments de PAFF">
         {newestEntriesFirst(journalEntries).map((entry) => <li key={entry.id}>

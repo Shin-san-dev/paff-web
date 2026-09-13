@@ -22,10 +22,7 @@ export function HomePage() {
 
       <section className="home-hero__content">
         <p className="home-hero__eyebrow">Le champ de bataille vous attend</p>
-        <h1 id="home-title">
-          <img src="/brand/paff-logo.png" alt="PAFF" width="1942" height="809" />
-        </h1>
-        <p className="home-hero__subtitle">Jeu de stratégie multijoueur</p>
+        <h1 id="home-title">Jeu de stratégie multijoueur</h1>
         <p className="home-hero__description">
           PAFF est un jeu de stratégie dans lequel deux joueurs dirigent chacun
           une faction et s’affrontent sur un champ de bataille tactique.

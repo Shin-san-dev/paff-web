@@ -28,12 +28,15 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       <nav className="site-bar__nav" aria-label="Navigation principale">
         <NavLink to="/home">Accueil</NavLink>
         <NavLink to="/cards">Cartes</NavLink>
-        <NavLink to="/journal">Journal</NavLink>
         {status === 'authenticated' ? (
           <><NavLink to="/decks">Mes decks</NavLink><NavLink to="/lobby">Lobby</NavLink></>
         ) : null}
       </nav>
 
+      <div className="site-bar__aside">
+      <nav className="site-bar__about" aria-label="À propos de PAFF">
+        <NavLink to="/journal">Journal</NavLink>
+      </nav>
       <div className="site-bar__session" aria-live="polite">
         {status === 'loading' ? (
           <span>Session…</span>
@@ -47,6 +50,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         ) : (
           <Link to="/login">Se connecter</Link>
         )}
+      </div>
       </div>
     </header>
   )

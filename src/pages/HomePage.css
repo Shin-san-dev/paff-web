@@ -75,24 +75,11 @@
 }
 
 .home-hero h1 {
-  width: min(100%, 34rem);
+  max-width: 38rem;
   margin: 0;
-  line-height: 0;
-}
-
-.home-hero h1 img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.home-hero__subtitle {
-  margin-top: clamp(2rem, 4vw, 3rem);
-  color: var(--bronze-400);
-  font-size: 0.875rem;
-  font-weight: 720;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  color: var(--parchment-100);
+  font: 600 clamp(2rem, 4.5vw, 4rem)/1.15 var(--display);
+  text-wrap: balance;
 }
 
 .home-hero__description {
@@ -170,11 +157,6 @@
 
   .home-hero__content::before {
     margin-bottom: 1.25rem;
-  }
-
-  .home-hero__subtitle {
-    margin-top: 1.75rem;
-    font-size: 0.875rem;
   }
 
   .home-hero__description {

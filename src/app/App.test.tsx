@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState, type ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
@@ -70,12 +70,12 @@ describe('public and private routing', () => {
   })
   it('redirects the root to the public home page', () => {
     renderApp('/')
-    expect(screen.getByRole('heading', { name: 'PAFF' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Jeu de stratégie multijoueur' })).toBeVisible()
   })
 
   it('allows a visitor to open home without a login redirect', () => {
     renderApp('/home')
-    expect(screen.getByRole('heading', { name: 'PAFF' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Jeu de stratégie multijoueur' })).toBeVisible()
     expect(screen.queryByRole('heading', { name: 'Connexion' })).not.toBeInTheDocument()
   })
 
@@ -90,8 +90,10 @@ describe('public and private routing', () => {
     expect(screen.getByRole('heading', { name: 'Le Journal de PAFF' })).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Première version jouable' })).toBeVisible()
     expect(screen.getByText('11 septembre 2026')).toHaveAttribute('datetime', '2026-09-11')
-    expect(screen.getByText(/deux factions disponibles/)).toHaveTextContent('Gobelins et Céphozie')
+    expect(screen.getByText(/deux factions disponibles/)).toHaveTextContent('Gobelins et Sephosi. Oh yeah.')
     expect(screen.getByRole('link', { name: 'Journal' })).toHaveAttribute('aria-current', 'page')
+    expect(within(screen.getByRole('navigation', { name: 'Navigation principale' })).queryByRole('link', { name: 'Journal' })).not.toBeInTheDocument()
+    expect(within(screen.getByRole('navigation', { name: 'À propos de PAFF' })).getByRole('link', { name: 'Journal' })).toBeVisible()
   })
 
   it('keeps the card catalogue available to a player', () => {
@@ -106,7 +108,7 @@ describe('public and private routing', () => {
 
   it('redirects an authenticated player away from login', () => {
     renderApp('/login', { status: 'authenticated', player })
-    expect(screen.getByRole('heading', { name: 'PAFF' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Jeu de stratégie multijoueur' })).toBeVisible()
   })
 
   it('keeps future personal routes protected', () => {
@@ -168,7 +170,7 @@ describe('public navigation and session', () => {
 
     await user.click(screen.getByRole('button', { name: 'Se déconnecter' }))
     await waitFor(() => expect(screen.getByRole('link', { name: 'Se connecter' })).toBeVisible())
-    expect(screen.getByRole('heading', { name: 'PAFF' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Jeu de stratégie multijoueur' })).toBeVisible()
   })
 })
 

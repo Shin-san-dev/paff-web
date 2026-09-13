@@ -10,7 +10,7 @@ export const journalEntries: readonly JournalEntry[] = [
     id: 'premiere-version-jouable',
     date: '2026-09-11',
     title: 'Première version jouable',
-    description: 'Les premières cartes prennent vie autour de la table. PAFF fait ses premiers pas avec une version jouable et deux factions disponibles : Gobelins et Céphozie. L’aventure entre amis commence !',
+    description: 'Les premières cartes prennent vie autour de la table. PAFF fait ses premiers pas avec une version jouable et deux factions disponibles : Gobelins et Sephosi. Oh yeah.',
   },
 ]
 

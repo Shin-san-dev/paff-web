@@ -1,9 +1,10 @@
 import { v } from 'convex/values'
 import { internalMutation } from './_generated/server'
 import { getUnitProfile } from '../shared/unitProfile'
-import { DEFAULT_PLAYER_AVATAR, FIRST_VERSION_BADGE_ID } from '../shared/playerBadges'
+import { FIRST_VERSION_BADGE_ID } from '../shared/playerBadges'
+import { DEFAULT_PLAYER_AVATAR } from '../shared/playerAvatars'
 
-// Run explicitly once after deployment. This list identifies existing accounts;
+// Run explicitly to assign the launch badge. This list identifies existing accounts;
 // it never provisions users or awards badges based on activity or performance.
 export const initializeLaunchProfiles = internalMutation({
   args: {},
@@ -17,10 +18,10 @@ export const initializeLaunchProfiles = internalMutation({
     })
     let updated = 0
     for (const profile of launchProfiles) {
-      if (profile.avatarPath !== undefined && profile.badgeIds !== undefined) continue
+      if (profile.avatarPath !== undefined && profile.badgeIds?.includes(FIRST_VERSION_BADGE_ID)) continue
       await ctx.db.patch(profile._id, {
         ...(profile.avatarPath === undefined ? { avatarPath: DEFAULT_PLAYER_AVATAR } : {}),
-        ...(profile.badgeIds === undefined ? { badgeIds: [FIRST_VERSION_BADGE_ID] } : {}),
+        badgeIds: [...new Set([...(profile.badgeIds ?? []), FIRST_VERSION_BADGE_ID])],
       })
       updated++
     }

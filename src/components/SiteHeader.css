@@ -11,11 +11,19 @@
 .site-bar__session button, .site-bar__session a { padding: 0.55rem 0.8rem; border: 1px solid var(--line-dark); border-radius: 0.4rem; background: #ffffff04; cursor: pointer; }
 .site-bar__session button:disabled { cursor: wait; opacity: 0.6; }
 .site-bar__player { color: var(--bronze-400) !important; }
+.site-bar__aside { display: flex; align-items: center; gap: 1rem; }
+.site-bar__about { padding-right: 1rem; border-right: 1px solid var(--line-dark); }
+.site-bar__about a { display: inline-block; padding-block: 0.6rem; color: var(--parchment-300); font-size: 0.875rem; text-decoration: none; }
+.site-bar__about a:hover, .site-bar__about a[aria-current='page'] { color: var(--bronze-400); }
+.site-bar__about a[aria-current='page'] { text-decoration: underline; text-underline-offset: 0.45rem; }
 @media (max-width: 760px) {
   .site-bar { min-height: auto; padding-block: 0.8rem; grid-template-columns: auto 1fr; gap: 0.65rem 1rem; }
   .site-bar__nav { justify-content: flex-end; flex-wrap: wrap; gap: 0.25rem 0.8rem; }
   .site-bar__nav a { padding-block: 0.6rem; }
   .site-bar__session { grid-column: 1 / -1; }
+  .site-bar__aside { grid-column: 1 / -1; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem; padding-top: 0.4rem; border-top: 1px solid var(--line-dark); }
+  .site-bar__about { padding-right: 0.75rem; }
+  .site-bar__session { flex: 1; }
   .site-bar__player { margin-right: auto; }
   .site-bar__brand img { width: 6rem; }
 }

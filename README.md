@@ -4,9 +4,12 @@ PAFF est un jeu de cartes et de stratégie pour deux joueurs. Chacun dirige une 
 
 Le site prépare son adaptation numérique : découvrir les cartes, construire ses decks et préparer une partie à deux en temps réel.
 
+Le [contexte de travail](docs/contexte-projet.md) rassemble le vocabulaire, les choix d’interface et les environnements à relire pour reprendre le projet.
+
 ## Le site aujourd’hui
 
 - Un catalogue public réparti entre quatre factions, dont 10 unités Gobelins et 10 unités Sephosi avec les profils et capacités du PDF reçu le 10 septembre 2026.
+- Un journal public et des profils communautaires, avec deux avatars de faction, le nombre de decks total et par faction, et le badge « Premier jour » pour les cinq membres initiaux ; voir la [mise en service](docs/journal-profils.md).
 - Un espace joueur privé pour créer, consulter, renommer et supprimer ses decks.
 - Une seule faction par deck, avec des quantités de cartes libres et une sauvegarde automatique.
 - Un récapitulatif de la composition et des coûts pendant la construction.

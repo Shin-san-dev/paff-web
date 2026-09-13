@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import { DEFAULT_PLAYER_AVATAR } from '../../../shared/playerBadges'
+import { resolvePlayerAvatar } from '../../../shared/playerAvatars'
 import './PlayerAvatar.css'
 
-export function PlayerAvatar({ displayName, avatarPath = DEFAULT_PLAYER_AVATAR, size = 'small' }: {
+export function PlayerAvatar({ displayName, avatarPath, size = 'small' }: {
   displayName: string
   avatarPath?: string
   size?: 'small' | 'large'
 }) {
   const [failedPath, setFailedPath] = useState<string | null>(null)
+  const imagePath = resolvePlayerAvatar(avatarPath)
   return <span className={`player-avatar player-avatar--${size}`} role="img" aria-label={`Avatar de ${displayName}`}>
-    {failedPath === avatarPath
+    {failedPath === imagePath
       ? <span aria-hidden="true">{displayName.trim().slice(0, 1).toLocaleUpperCase('fr')}</span>
-      : <img src={avatarPath} alt="" onError={() => setFailedPath(avatarPath)} />}
+      : <img src={imagePath} alt="" onError={() => setFailedPath(imagePath)} />}
   </span>
 }

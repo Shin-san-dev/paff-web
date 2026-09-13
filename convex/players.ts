@@ -1,8 +1,26 @@
-import { v } from 'convex/values'
-import { internalMutation, query } from './_generated/server'
+import { ConvexError, v } from 'convex/values'
+import { internalMutation, mutation, query } from './_generated/server'
+import type { QueryCtx } from './_generated/server'
+import type { Id } from './_generated/dataModel'
 import { getCurrentPlayer, requireActivePlayer } from './lib/auth'
 import { normalizeLoginId } from './lib/normalizeLoginId'
-import { badgesForPlayer, DEFAULT_PLAYER_AVATAR, playerBadges } from '../shared/playerBadges'
+import { badgesForPlayer, playerBadges } from '../shared/playerBadges'
+import { isPlayerAvatar, resolvePlayerAvatar } from '../shared/playerAvatars'
+
+export const updateMyAvatar = mutation({
+  args: { avatarPath: v.string() },
+  handler: async (ctx, args) => {
+    const player = await requireActivePlayer(ctx)
+    if (!isPlayerAvatar(args.avatarPath)) {
+      throw new ConvexError({ code: 'INVALID_AVATAR' })
+    }
+    const profile = await ctx.db.query('playerProfiles')
+      .withIndex('by_user_id', (q) => q.eq('userId', player.userId)).unique()
+    if (!profile?.active) throw new ConvexError({ code: 'ACCOUNT_DISABLED' })
+    await ctx.db.patch(profile._id, { avatarPath: args.avatarPath })
+    return { avatarPath: args.avatarPath }
+  },
+})
 
 export const current = query({
   args: {},
@@ -39,8 +57,9 @@ export const getProfile = query({
     return {
       userId: profile.userId,
       displayName: profile.displayName,
-      avatarPath: profile.avatarPath ?? DEFAULT_PLAYER_AVATAR,
+      avatarPath: resolvePlayerAvatar(profile.avatarPath),
       badges: badgesForPlayer(profile.badgeIds),
+      deckSummary: await summarizePlayerDecks(ctx, userId),
     }
   },
 })
@@ -55,8 +74,8 @@ export const setPresentation = internalMutation({
     const profile = await ctx.db.query('playerProfiles')
       .withIndex('by_user_id', (q) => q.eq('userId', args.userId)).unique()
     if (!profile) throw new Error('Account not found')
-    if (args.avatarPath !== undefined && !/^\/(?!\/)[^\\?#]+\.(webp|png|jpe?g|svg)$/i.test(args.avatarPath)) {
-      throw new Error('Avatar must be a local image path')
+    if (args.avatarPath !== undefined && !isPlayerAvatar(args.avatarPath)) {
+      throw new Error('Avatar must belong to the faction gallery')
     }
     if (args.badgeIds?.some((id) => !playerBadges.some((badge) => badge.id === id))) {
       throw new Error('Unknown player badge')
@@ -68,6 +87,32 @@ export const setPresentation = internalMutation({
     return { updated: true }
   },
 })
+
+async function summarizePlayerDecks(ctx: QueryCtx, userId: Id<'users'>) {
+  const decks = await ctx.db.query('decks')
+    .withIndex('by_owner', (q) => q.eq('ownerUserId', userId)).collect()
+  const factions = await Promise.all(decks.map(async (deck) => {
+    const faction = deck.factionId ? await ctx.db.get(deck.factionId) : null
+    if (faction) return faction
+    // Legacy decks may predate factionId: use their first surviving card,
+    // as in decks:listMine. Only aggregated counts leave this query.
+    const entries = await ctx.db.query('deckCards')
+      .withIndex('by_deck', (q) => q.eq('deckId', deck._id)).collect()
+    for (const entry of entries) {
+      const card = await ctx.db.get(entry.cardId)
+      if (card) return ctx.db.get(card.factionId)
+    }
+    return null
+  }))
+  const groups = new Map<string | null, { factionStableId: string | null; name: string; count: number }>()
+  for (const faction of factions) {
+    const key = faction?.stableId ?? null
+    const group = groups.get(key) ?? { factionStableId: key, name: faction?.name ?? 'Sans faction', count: 0 }
+    group.count++
+    groups.set(key, group)
+  }
+  return { total: decks.length, byFaction: [...groups.values()].sort((a, b) => a.name.localeCompare(b.name, 'fr')) }
+}
 
 export const setActive = internalMutation({
   args: {
