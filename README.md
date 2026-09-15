@@ -8,7 +8,7 @@ Le [contexte de travail](docs/contexte-projet.md) rassemble le vocabulaire, les 
 
 ## Le site aujourd’hui
 
-- Un catalogue public réparti entre quatre factions, dont 10 unités Gobelins et 10 unités Sephosi avec les profils et capacités du PDF reçu le 10 septembre 2026.
+- Un catalogue public réparti entre quatre factions, dont 10 unités Gobelins et 10 unités Sephosi avec les profils révisés du PDF reçu le 15 septembre 2026.
 - Un journal public et des profils communautaires, avec deux avatars de faction, le nombre de decks total et par faction, et le badge « Premier jour » pour les cinq membres initiaux ; voir la [mise en service](docs/journal-profils.md).
 - Un espace joueur privé pour créer, consulter, renommer et supprimer ses decks.
 - Une seule faction par deck, avec des quantités de cartes libres et une sauvegarde automatique.
@@ -16,7 +16,7 @@ Le [contexte de travail](docs/contexte-projet.md) rassemble le vocabulaire, les 
 - Un lobby à deux joueurs, la préparation privée, l’initiative et le déploiement sur 54 cases, puis un plateau manuel partagé avec déplacements, réserves, engagements, compteurs et dés synchronisés. Vol est pris en compte dans les déplacements ; Blop commence en réserve.
 
 L’état précis du jeu et les écarts encore ouverts sont suivis dans les [règles implémentées](docs/regles-implementees.md).
-Les changements du dernier PDF, dont les huit ordres de faction finalisés, sont détaillés dans la [comparaison du 11 septembre](docs/differences-regles-2026-09-11.md).
+Les trois unités modifiées et les retours de la première partie sont détaillés dans la [comparaison du 15 septembre](docs/differences-regles-2026-09-15.md).
 
 L’univers visuel mêle illustrations de fantasy, tons sombres et titres inspirés des inscriptions anciennes.
 

@@ -20,7 +20,7 @@ const messages: Record<string, string> = {
   DEPLOYMENT_LOCKED: 'Votre préparation est déjà validée.',
   DECK_RULES_VIOLATION: 'Ce deck ne respecte pas le budget de 33 points ou les quotas de types. Consultez les indications sous le deck.',
   DEPLOYMENT_BUDGET_EXCEEDED: 'Choisissez au maximum 21 points à déployer.',
-  RESERVE_BUDGET_EXCEEDED: 'La réserve ne peut pas dépasser 12 points. Choisissez davantage d’unités à déployer.',
+  RECRUITMENT_NOT_YET_AVAILABLE: 'Les ordres Recrutement sont disponibles à partir du tour 2.',
   INVALID_MOVEMENT: 'Cette destination est inaccessible pour cette unité.',
   RESERVE_EMPTY: 'Cet exemplaire n’est plus disponible dans votre réserve.',
   STALE_GAME_ACTION: 'La partie a évolué. Consultez les informations actualisées avant de rejouer.',

@@ -1,14 +1,14 @@
 export type OrderDefinition = {
   id: string; name: string; faction: string; category: 'common' | 'classic' | 'advanced' | 'rare' | 'legendary'; description: string; limit?: number
 }
-// PAFF 2026 (1).pdf received 2026-09-11: orders p. 7, recruitment timing p. 3.
+// PAFF 2026 (2).pdf received 2026-09-15: orders p. 6, recruitment timing p. 2.
 // Nicolas corrected Invokation shamanique: 2–3 discards one unit; 4–5 adds no effect.
 // References for the manual tabletop: effects, limits and timing are player-managed.
 export const orderDefinitions: OrderDefinition[] = [
   { id: 'movement', name: 'Mouvement', faction: 'common', category: 'common', description: 'Déplacer les unités d’une zone selon les conditions de déplacement.' },
   { id: 'shooting', name: 'Tir', faction: 'common', category: 'common', description: 'Faire tirer les unités d’une même zone, hors artillerie.' },
   { id: 'artillery', name: 'Tir Artillerie', faction: 'common', category: 'common', description: 'Faire tirer les artilleries d’une même zone.' },
-  { id: 'recruitment', name: 'Recrutement', faction: 'common', category: 'common', limit: 3, description: 'Trois sélections par partie : la première est accessible à partir du tour 3, la deuxième à partir du tour 4, la troisième à partir du tour 5. Recruter des unités de la réserve pour 3 points de recrutement. Elles peuvent suivre d’autres ordres ce tour-ci, mais ne peuvent pas tirer. Dans la même phase d’ordre, cumuler deux ou trois cartes Recrutement permet de disposer de 6 ou 9 points.' },
+  { id: 'recruitment', name: 'Recrutement', faction: 'common', category: 'common', limit: 3, description: 'Trois sélections par partie : la première est accessible à partir du tour 2, la deuxième à partir du tour 3, la troisième à partir du tour 4. Recruter des unités de la réserve pour 3 points de recrutement. Elles peuvent suivre d’autres ordres ce tour-ci, mais ne peuvent pas tirer. Dans la même phase d’ordre, cumuler deux ou trois cartes Recrutement permet de disposer de 6 ou 9 points.' },
   { id: 'goblin-reinforcements', name: 'Tiens, des gobelins...', faction: 'gobelins', category: 'common', description: 'Vous pouvez recruter gratuitement une Bande de Gobelins.' },
   { id: 'shamanic-invocation', name: 'Invokation shamanique', faction: 'gobelins', category: 'advanced', limit: 4, description: 'Sélectionnez une de vos unités de Shamans. Elle peut tirer sur une unité ennemie en ajoutant un dé par unité de Shamans à portée de tir. Après le tir, lancez 1D6 : sur 1, défaussez deux Shamans ; sur 2–3, défaussez une unité de Shamans ; sur 4–5, aucun effet supplémentaire ; sur 6, refaites la même attaque sur la même unité (si elle a été détruite, cette attaque ne donne rien).' },
   { id: 'lunch-break', name: 'Pause-déjeuner', faction: 'gobelins', category: 'rare', limit: 2, description: 'Vous pouvez sacrifier une unité de gobelins adjacente à une unité de Trolls (même engagée en combat) pour ajouter 1 point de R à cette dernière. Vous pouvez effectuer cette manœuvre pour toutes vos unités de Trolls présentes.' },

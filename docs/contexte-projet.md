@@ -28,6 +28,14 @@ Les cinq membres initiaux sont **Nicolas, Adrien, Bru, Pierre et Quentin**. Les 
 - Le logo apparaît dans la navigation et comme favicon ; ne pas le dupliquer dans le bloc principal de l’accueil.
 - Les futures préférences de faction/carte et les decks publics ne doivent pas apparaître comme des sections vides.
 
+## Retours de partie du 15 septembre 2026
+
+- Référence courante : `PAFF 2026 (2).pdf`, 9 pages, reçue le 15 septembre. Trois profils révisés : Bande de Gobelins 2 dés ; Archers Gobelins 1 R / 2 dés ; Epéistes Sephosiens 3 DT. Valeurs versionnées dans `shared/catalogue2026.ts`, comparaison dans `docs/differences-regles-2026-09-15.md`.
+- Déploiement initial : jusqu’à 21 points **sans minimum**, réserve égale au reste du deck (33 points maximum). La consigne de Nicolas autorisant 18 + 15 prime sur la limite de réserve à 12 encore présente dans le PDF. Conserver les contraintes de cases, de types et de Blop.
+- Compteur Recrutement : +/− interdits au tour 1 côté interface et serveur, disponibles dès le tour 2. Calendrier de référence 2/3/4 ; les autres disponibilités et les effets restent manuels. Ne pas confondre ce compteur avec l’entrée d’une unité de réserve, qui peut provenir d’un ordre de faction.
+- Spectateurs : partie visible dès son lancement, avec suivi des préparatifs sans révéler les choix privés, puis plateau public au déploiement et au combat. Toujours aucune place de joueur ni droit d’action.
+- Plateau : flancs davantage séparés, liens d’engagement rouge vif continus, aperçu de carte survolable avec capacité consultable et accès clavier. Aucun changement des coordonnées ou des déplacements.
+
 ## Environnements et travail local
 
 Le dossier habituel de Nicolas est `/Users/nicolasca/Documents/workspace/paff-web`. Travailler dedans, sur une branche `codex/<sujet>`, et laisser les diffs consultables avant commit. Une nouvelle conversation doit être ouverte dans ce projet pour charger son `AGENTS.md` ; un échange sans accès au dépôt ne récupère pas automatiquement ces fichiers.

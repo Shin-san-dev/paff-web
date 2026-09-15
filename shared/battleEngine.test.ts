@@ -46,11 +46,14 @@ describe('hit-table advice and army preparation', () => {
     rows.forEach((row, d) => row.forEach((threshold, a) => expect(hitRule(a + 1, d + 1).threshold).toBe(threshold)))
     expect(hitRule(4, 1).reroll).toBe('fail'); expect(hitRule(1, 5).reroll).toBe('success')
   })
-  it('enforces 33 / 21 / 12 budgets and type quotas', () => {
+  it('enforces deck and deployment ceilings without a minimum deployment or a separate reserve cap', () => {
     const cards = [{ kind: 'unit' as const, cost: 2, quantity: 17, selectedQuantity: 11, profile: meleeProfile }]
     expect(deckRuleIssues(cards)).toHaveLength(1)
     expect(preparationBudgetError(cards)).toBe('DEPLOYMENT_BUDGET_EXCEEDED')
-    expect(preparationBudgetError([{ ...cards[0], selectedQuantity: 10 }])).toBe('RESERVE_BUDGET_EXCEEDED')
+    const fullDeck = [{ ...cards[0], cost: 3, quantity: 11, selectedQuantity: 6 }]
+    expect(deckRuleIssues(fullDeck)).toEqual([])
+    expect(preparationBudgetError(fullDeck)).toBeNull()
+    expect(preparationBudgetError([{ ...fullDeck[0], selectedQuantity: 0 }])).toBeNull()
     expect(deckRuleIssues([{ ...cards[0], cost: 1, quantity: 7, profile: { ...meleeProfile, unitType: 'cavalry' } }])[0]).toContain('7 / 6')
   })
 })

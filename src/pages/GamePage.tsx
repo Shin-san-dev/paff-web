@@ -21,7 +21,7 @@ const newSteps = ['waiting', 'deck_selection', 'preparation', 'initiative', 'dep
 export function GamePage() {
   const { gameId } = useParams()
   const game = useQuery(api.games.get, { gameId: gameId as Id<'games'> })
-  const decks = useQuery(api.decks.listMine, game?.phase === 'deck_selection' ? {} : 'skip')
+  const decks = useQuery(api.decks.listMine, game?.phase === 'deck_selection' && !game.isSpectator ? {} : 'skip')
   const navigate = useNavigate()
   return <><SiteHeader /><main className={`game-page${game?.battle?.manual ? ' game-page--manual' : ''}`}><div className="game-shell">
     <div className="game-topline"><Link to="/lobby">← Toutes les tables</Link><GameConnection /></div>

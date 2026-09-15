@@ -24,15 +24,40 @@ export function TacticalBoard({ game, allowedCells = [], onPlace, onReposition, 
   const [inspected, setInspected] = useState<number | null>(null)
   const previewId = useId()
   const surface = useRef<HTMLDivElement>(null)
+  const previewTrigger = useRef<HTMLElement | null>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const [hovered, setHovered] = useState<{ cell: number; x: number; y: number } | null>(null)
+  function keepPreview() { clearTimeout(closeTimer.current) }
+  function hidePreviewSoon() {
+    keepPreview()
+    closeTimer.current = setTimeout(() => setHovered(null), 300)
+  }
+  function showPreview(cell: number, element: HTMLElement) {
+    keepPreview()
+    previewTrigger.current = element
+    const rect = element.getBoundingClientRect()
+    setHovered({ cell, x: rect.right, y: rect.top })
+  }
   useEffect(() => {
     const dismiss = () => setHovered(null)
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') dismiss() }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (document.getElementById(previewId)?.contains(document.activeElement)) previewTrigger.current?.focus()
+        dismiss()
+      }
+      if (event.key === 'Tab' && !event.shiftKey && document.activeElement === previewTrigger.current) {
+        const ability = document.getElementById(previewId)?.querySelector('button')
+        if (ability) { event.preventDefault(); ability.focus() }
+      }
+    }
+    const onScroll = (event: Event) => {
+      if (!(event.target instanceof Element) || !event.target.closest('.card-preview, .ability-tooltip')) dismiss()
+    }
     window.addEventListener('keydown', onKey)
-    window.addEventListener('scroll', dismiss, true)
+    window.addEventListener('scroll', onScroll, true)
     window.addEventListener('resize', dismiss)
-    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('scroll', dismiss, true); window.removeEventListener('resize', dismiss) }
-  }, [])
+    return () => { clearTimeout(closeTimer.current); window.removeEventListener('keydown', onKey); window.removeEventListener('scroll', onScroll, true); window.removeEventListener('resize', dismiss) }
+  }, [previewId])
   function unitAt(cell: number) {
     const unit = (game.battle?.engine?.units ?? game.setup?.units)?.find((item) => item.cell === cell)
     const owner = game.players.find((player) => player.seat === unit?.seat)
@@ -64,11 +89,10 @@ export function TacticalBoard({ game, allowedCells = [], onPlace, onReposition, 
             const className = `board-cell${unit ? ` board-unit board-unit--${unit.owner.seat === me.seat ? 'you' : 'opponent'}` : ''}${allowed ? ' board-cell--allowed' : ''}${!readOnly && cell === (selectedCell ?? inspected) ? ' board-cell--selected' : ''}${engaged && (interaction || readOnly) ? ' board-unit--engaged' : ''}${battleRole ? ` board-unit--${battleRole}` : ''}`
             const label = `${cellCoordinate(cell)}${allowed ? ` · ${placeLabel}` : ''}${unit ? ` · ${unit.card.name} · ${unit.owner.displayName}` : allowed ? '' : ' · Case vide'}`
             if (readOnly && unit) return <div key={cell} role="img" tabIndex={0} data-cell={cell} data-unit-id={unit.runtime?.id} data-faction={unit.card.faction.stableId} data-battle-role={battleRole} className={`${className} board-unit--spectator`} aria-label={`${label} · ${unit.runtime?.regiment ?? getUnitProfile(unit.card)?.regiment} R`} aria-describedby={hovered?.cell === cell ? previewId : undefined}
-              onMouseEnter={(event) => setHovered({ cell, x: event.clientX, y: event.clientY })}
-              onMouseMove={(event) => hovered?.cell === cell && setHovered({ cell, x: event.clientX, y: event.clientY })}
-              onMouseLeave={() => setHovered(null)}
-              onFocus={(event) => { const rect = event.currentTarget.getBoundingClientRect(); setHovered({ cell, x: rect.right, y: rect.top }) }}
-              onBlur={() => setHovered(null)}
+              onMouseEnter={(event) => showPreview(cell, event.currentTarget)}
+              onMouseLeave={hidePreviewSoon}
+              onFocus={(event) => showPreview(cell, event.currentTarget)}
+              onBlur={hidePreviewSoon}
             >{content}{battleRole && <span className="board-unit__role">{battleRole === 'attacker' ? 'Att.' : 'Déf.'}</span>}</div>
             return unit || allowed ? <button key={cell} type="button" data-cell={cell} data-unit-id={unit?.runtime?.id} data-faction={unit?.card.faction.stableId} data-battle-role={battleRole} className={className} aria-label={label} aria-describedby={hovered?.cell === cell ? previewId : undefined} aria-pressed={unit ? cell === (selectedCell ?? inspected) : undefined} disabled={busy && (allowed || Boolean(onUnit))}
               draggable={!busy && Boolean(interaction?.canDrag(cell))}
@@ -79,18 +103,16 @@ export function TacticalBoard({ game, allowedCells = [], onPlace, onReposition, 
               onDrop={(event) => { event.preventDefault(); if (allowed && !busy) interaction?.onDrop(cell) }}
               onContextMenu={(event) => { if (unit && interaction) { event.preventDefault(); setHovered(null); if (!busy) interaction.onCompare(cell) } }}
               onKeyDown={(event) => { if (interaction && unit && (event.key === 'c' || event.key === 'C')) { event.preventDefault(); if (!busy) interaction.onCompare(cell) } }}
-              onMouseEnter={(event) => unit && !interaction?.dragging && setHovered({ cell, x: event.clientX, y: event.clientY })}
-              onMouseMove={(event) => unit && hovered?.cell === cell && setHovered({ cell, x: event.clientX, y: event.clientY })}
-              onMouseLeave={() => setHovered(null)}
-              onFocus={(event) => { if (unit) { const rect = event.currentTarget.getBoundingClientRect(); setHovered({ cell, x: rect.right, y: rect.top }) } }}
-              onBlur={() => setHovered(null)}
+              onMouseEnter={(event) => unit && !interaction?.dragging && showPreview(cell, event.currentTarget)}
+              onMouseLeave={hidePreviewSoon}
+              onFocus={(event) => { if (unit) showPreview(cell, event.currentTarget) }}
+              onBlur={hidePreviewSoon}
               onClick={(event) => {
                 if (allowed) { setHovered(null); onPlace?.(cell) }
                 else if (unit) {
                   if (onUnit) onUnit(cell)
                   else setInspected(cell === inspected ? null : cell)
-                  const rect = event.currentTarget.getBoundingClientRect()
-                  setHovered({ cell, x: rect.right, y: rect.top })
+                  showPreview(cell, event.currentTarget)
                 }
               }}>{content}{battleRole && <span className="board-unit__role">{battleRole === 'attacker' ? 'Att.' : 'Déf.'}</span>}</button>
               : <div key={cell} data-cell={cell} className={className} aria-label={label}>{content}</div>
@@ -104,7 +126,7 @@ export function TacticalBoard({ game, allowedCells = [], onPlace, onReposition, 
       <button type="button" className="ui-button" disabled={busy} onClick={() => { setHovered(null); onReposition(inspected!) }}>Changer de case</button>
       <button type="button" className="ui-button ui-button--quiet" onClick={() => setInspected(null)}>Fermer</button>
     </div>}
-    {previewUnit && hovered && !interaction?.dragging && <CardPreview id={previewId} x={hovered.x} y={hovered.y} card={{ ...previewUnit.card, ...(previewProfile ? { profile: { ...previewProfile, regiment: previewUnit.runtime?.regiment ?? previewProfile.regiment } } : {}) }} />}
+    {previewUnit && hovered && !interaction?.dragging && <CardPreview id={previewId} x={hovered.x} y={hovered.y} interactive onEnter={keepPreview} onLeave={hidePreviewSoon} card={{ ...previewUnit.card, ...(previewProfile ? { profile: { ...previewProfile, regiment: previewUnit.runtime?.regiment ?? previewProfile.regiment } } : {}) }} />}
     <p className="board-caption">3 axes · 15 zones · 54 cases <span>✦ Zones stratégiques</span></p>
   </div>
 }

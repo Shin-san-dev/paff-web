@@ -7,7 +7,7 @@
 .board-mobile-hint { display: none; margin: 0; padding: 0.2rem 0.8rem 0.7rem; text-align: center; color: #bfb18e; font-size: 0.65rem; }
 .board-scroll:focus-visible { outline: 2px solid #d7bd88; outline-offset: -2px; }
 .board-surface { position: relative; min-width: 580px; padding: 0 1rem 1rem; background: linear-gradient(#161f172e, #23251938), url('/art/paff-campaign-terrain-v1.webp') center / cover, #66664b; box-shadow: inset 0 0 55px #161c1680; }
-.board-axis, .board-zones { display: grid; grid-template-columns: 2fr 5fr 2fr; gap: 0.5rem; }
+.board-axis, .board-zones { display: grid; grid-template-columns: 2fr 5fr 2fr; gap: 0.5rem 1.25rem; }
 .board-axis { padding: .8rem 0; color: #f0e2bc; text-align: center; text-transform: uppercase; letter-spacing: .13em; font-size: .6rem; text-shadow: 0 1px 4px #000; }
 .board-zone { min-width: 0; padding: .35rem; border: 1px solid #e3d4a363; background: #10191024; border-radius: .2rem; box-shadow: 0 1px 3px #171c1660, inset 0 0 0 1px #1c211c35; }
 .board-zone--strategic { border-color: #f3d38dc9; background: #d7b46514; margin-block: .3rem; box-shadow: 0 0 0 1px #372c2270, inset 0 0 24px #d6af5d14; }

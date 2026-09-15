@@ -10,6 +10,8 @@ import { initialBattle, RULES_VERSION, type BattleState } from '../shared/battle
 
 const gameId = v.id('games')
 type Context = QueryCtx | MutationCtx
+const spectatorPhases = ['deck_selection', 'preparation', 'initiative', 'deployment', 'battle'] as const
+const canWatch = (phase: Doc<'games'>['phase']) => spectatorPhases.some((item) => item === phase)
 
 function members(ctx: Context, id: Id<'games'>) {
   return ctx.db.query('gamePlayers').withIndex('by_game', (q) => q.eq('gameId', id)).collect()
@@ -56,11 +58,11 @@ export const listLobby = query({
       const players = await members(ctx, game._id)
       return { id: game._id, name: game.name, playerCount: players.length, createdAt: game.createdAt }
     }))
-    const battles = await ctx.db.query('games').withIndex('by_phase', (q) => q.eq('phase', 'battle')).collect()
+    const battles = (await Promise.all(spectatorPhases.map((phase) => ctx.db.query('games').withIndex('by_phase', (q) => q.eq('phase', phase)).collect()))).flat()
     const watchable = await Promise.all(battles.filter((game) => game._id !== current?.gameId).map(async (game) => ({
       id: game._id, name: game.name, startedAt: game.battleStartedAt ?? game.createdAt,
-      turn: game.battle?.turn ?? 1,
-      players: (await members(ctx, game._id)).sort((a, b) => a.seat - b.seat).map((member) => ({ userId: member.userId, displayName: member.displayName, factionName: member.factionName ?? null })),
+      phase: game.phase, turn: game.battle?.turn ?? null,
+      players: (await members(ctx, game._id)).sort((a, b) => a.seat - b.seat).map((member) => ({ userId: member.userId, displayName: member.displayName, factionName: game.phase === 'deployment' || game.phase === 'battle' ? member.factionName ?? null : null })),
     })))
     return {
       currentGame: currentGame ? { id: currentGame._id, name: currentGame.name, phase: currentGame.phase } : null,
@@ -78,15 +80,15 @@ export const get = query({
     if (!game) return null
     const players = await members(ctx, game._id)
     const me = players.find((member) => member.userId === player.userId)
-    // Spectating grants read access to the public battle only, never a seat.
+    // Spectators can follow a launched game, but private cards are never returned.
     // All mutations still require active membership independently of this query.
-    if (!me && game.phase !== 'battle') return null
+    if (!me && !canWatch(game.phase)) return null
     return {
       id: game._id, name: game.name, phase: game.phase,
       isSpectator: !me,
       isHost: game.hostUserId === player.userId,
       battleStartedAt: game.battleStartedAt ?? null,
-      setup: game.setup ?? null,
+      setup: me || game.phase === 'deployment' || game.phase === 'battle' ? game.setup ?? null : null,
       ...(game.battle ? { battle: game.battle } : {}),
       ...(game.rulesVersion ? { rulesVersion: game.rulesVersion } : {}),
       players: await Promise.all(players.sort((a, b) => a.seat - b.seat).map(async (member) => {

@@ -1,7 +1,6 @@
 import { unitTypeNames, type UnitProfile, type UnitType } from './unitProfile'
 export const DECK_BUDGET = 33
 export const DEPLOYMENT_BUDGET = 21
-export const RESERVE_BUDGET = 12
 const quotas: Partial<Record<UnitType, number>> = { cavalry: 6, artillery: 4, elite: 4, unique: 1 }
 type Card = { kind: 'unit' | 'action'; quantity: number; cost?: number; profile?: UnitProfile; selectedQuantity?: number }
 export function armyBudget(cards: Card[]) {
@@ -22,6 +21,5 @@ export function deckRuleIssues(cards: Card[]) {
 export function preparationBudgetError(cards: Card[]) {
   const budget = armyBudget(cards)
   if (budget.deployed > DEPLOYMENT_BUDGET) return 'DEPLOYMENT_BUDGET_EXCEEDED'
-  if (budget.reserve > RESERVE_BUDGET) return 'RESERVE_BUDGET_EXCEEDED'
   return null
 }

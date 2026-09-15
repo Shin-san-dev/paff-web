@@ -61,8 +61,8 @@ export function LobbyContent({ lobby, onEnter }: { lobby: Lobby | undefined; onE
           <p className="game-intro">Suivez une bataille en direct, en tant que spectateur.</p>
           {!lobby.watchable.length ? <p className="game-empty">Aucune bataille à regarder pour le moment.</p> : <section className="lobby-rooms" aria-label="Batailles à regarder">
             {lobby.watchable.map((battle) => <article className="lobby-room" key={battle.id}>
-              <div className="lobby-room__mark" aria-hidden="true">{battle.turn}<span>tour</span></div>
-              <div><span className="lobby-room__state">En cours · Tour {battle.turn}</span><h3>{battle.name}</h3><p>{battle.players.map((player, index) => <span key={player.userId}>{index > 0 && ' · '}<PlayerLink userId={player.userId} displayName={player.displayName} />{player.factionName && ` (${player.factionName})`}</span>)}</p></div>
+              <div className="lobby-room__mark" aria-hidden="true">{battle.turn ?? '✦'}<span>{battle.turn === null ? 'préparatifs' : 'tour'}</span></div>
+              <div><span className="lobby-room__state">{battle.phase === 'battle' ? `En cours · Tour ${battle.turn}` : phaseNames[battle.phase]}</span><h3>{battle.name}</h3><p>{battle.players.map((player, index) => <span key={player.userId}>{index > 0 && ' · '}<PlayerLink userId={player.userId} displayName={player.displayName} />{player.factionName && ` (${player.factionName})`}</span>)}</p></div>
               <Link className="ui-button" to={`/lobby/${battle.id}`} aria-label={`Regarder ${battle.name}`}>Regarder <span aria-hidden="true">→</span></Link>
             </article>)}
           </section>}

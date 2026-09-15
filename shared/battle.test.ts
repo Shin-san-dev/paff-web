@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { initialBattle, orderDefinitions } from './battle'
 
-describe('orders from the September 11 PDF, pages 3 and 7', () => {
+describe('orders from the September 15 PDF, pages 2 and 6', () => {
   it('keeps four common orders and describes the progressive recruitment allowance', () => {
     expect(orderDefinitions.filter((order) => order.faction === 'common').map((order) => order.name)).toEqual(['Mouvement', 'Tir', 'Tir Artillerie', 'Recrutement'])
     const battle = initialBattle([{ seat: 0, faction: 'gobelins' }, { seat: 1, faction: 'sephosi' }])
     const recruitment = battle.catalog.find((order) => order.id === 'recruitment')!
     expect(battle.manual.stocks.filter((stock) => stock.orderId === 'recruitment')).toEqual([{ seat: 0, orderId: 'recruitment', remaining: 3 }, { seat: 1, orderId: 'recruitment', remaining: 3 }])
-    for (const rule of ['première est accessible à partir du tour 3', 'deuxième à partir du tour 4', 'troisième à partir du tour 5', '6 ou 9 points', 'ne peuvent pas tirer']) expect(recruitment.description).toContain(rule)
+    for (const rule of ['première est accessible à partir du tour 2', 'deuxième à partir du tour 3', 'troisième à partir du tour 4', '6 ou 9 points', 'ne peuvent pas tirer']) expect(recruitment.description).toContain(rule)
   })
 
   it('gives each faction its four finalized orders and the 4/2/1 limited stocks', () => {

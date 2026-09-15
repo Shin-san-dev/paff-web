@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
 import { MemoryRouter, useLocation } from 'react-router-dom'
@@ -37,6 +37,34 @@ vi.mock('../auth/authSession', async () => {
 afterEach(() => vi.restoreAllMocks())
 
 describe('functional two-player journey with real game handlers', () => {
+  it('lets a spectator enter at launch and follow deployment and battle without reloading', async () => {
+    const h = createGameHarness()
+    const gameId = await h.readyFor('waiting')
+    const transport = createFunctionalTransport(h)
+    render(<FunctionalClientContext.Provider value={{ user: 3, transport }}><MemoryRouter initialEntries={['/lobby']}><App /></MemoryRouter></FunctionalClientContext.Provider>)
+    expect(await screen.findByText('Aucune bataille à regarder pour le moment.')).toBeVisible()
+    const play = async (user: number, name: string, args = {}) => act(async () => { await transport.mutate(user, `games:${name}`, { gameId, ...args }) })
+    await play(1, 'start')
+    await userEvent.click(await screen.findByRole('link', { name: 'Regarder Partie de Joueur 1' }))
+    expect(await screen.findByRole('heading', { name: 'Choix du deck' })).toBeVisible()
+    expect(screen.queryByRole('button', { name: /Choisir|Quitter la table/ })).not.toBeInTheDocument()
+    for (const user of [1, 2]) await play(user, 'selectDeck', { deckId: `deck-${user}` })
+    expect(await screen.findByRole('heading', { name: 'Choix des unités' })).toBeVisible()
+    await play(1, 'updatePreparation', { cardStableId: 'archers', change: { quantity: 1 } })
+    expect(screen.queryByText('Archers')).not.toBeInTheDocument()
+    for (const user of [1, 2]) await play(user, 'finishPreparation')
+    expect(await screen.findByRole('heading', { name: 'Initiative' })).toBeVisible()
+    vi.spyOn(Math, 'random').mockReturnValueOnce(.99).mockReturnValueOnce(0)
+    for (const user of [1, 2]) await play(user, 'rollInitiative', { round: 1 })
+    for (const user of [1, 2]) await play(user, 'confirmInitiative')
+    expect(await screen.findByRole('heading', { name: 'Déploiement' })).toBeVisible()
+    const revision = async () => (await h.run('get', 1, { gameId }))!.setup!.revision
+    await play(1, 'deployUnit', { cardStableId: 'archers', cell: 40, revision: await revision() })
+    expect(await screen.findByRole('img', { name: /E5 · Archers · Joueur 1/ })).toBeVisible()
+    for (const user of [2, 1]) await play(user, 'finishDeployment', { revision: await revision() })
+    expect(await screen.findByRole('heading', { name: 'Mode spectateur' })).toBeVisible()
+    expect(h.tables.gamePlayers).toHaveLength(2)
+  })
   it('opens an existing player profile from the table and returns without leaving the game', async () => {
     const h = createGameHarness()
     const gameId = await h.readyFor('waiting')

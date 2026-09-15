@@ -31,11 +31,36 @@ describe('spectator access', () => {
     expect((await h.read(3)).players[0].cards).toEqual([])
   })
 
-  it('keeps preparation private and requires an authenticated active account', async () => {
+  it('lists launched games immediately while keeping deck choices and reserves private', async () => {
     const h = createGameHarness()
-    const gameId = await h.readyFor('preparation')
+    const gameId = await h.readyFor('waiting')
     expect(await h.run('get', 3, { gameId })).toBeNull()
     expect((await h.run('listLobby', 3)).watchable).toEqual([])
+    await h.run('start', 1, { gameId })
+    expect((await h.run('listLobby', 3)).watchable).toMatchObject([{ id: gameId, phase: 'deck_selection', turn: null }])
+    await h.run('selectDeck', 1, { gameId, deckId: 'deck-1' })
+    await h.run('selectDeck', 2, { gameId, deckId: 'deck-2' })
+    for (const phase of ['preparation', 'initiative', 'deployment']) {
+      h.tables.games[0].phase = phase
+      const before = structuredClone(h.tables)
+      const view = (await h.run('get', 3, { gameId }))!
+      expect(view).toMatchObject({ isSpectator: true, phase })
+      expect((await h.run('listLobby', 3)).watchable).toMatchObject([{ id: gameId, phase, turn: null }])
+      for (const player of view.players) expect(player).toMatchObject({ isMe: false, cards: [], deployedCards: [], deckId: null, drawPileCount: null })
+      expect(JSON.stringify(view)).not.toContain('Archers')
+      if (phase !== 'deployment') {
+        expect(view.setup).toBeNull()
+        for (const player of view.players) expect(player).toMatchObject({ deckName: null, factionName: null })
+        expect((await h.run('listLobby', 3)).watchable[0].players.every((player) => player.factionName === null)).toBe(true)
+      }
+      for (const name of ['finishPreparation', 'rollInitiative', 'confirmInitiative', 'deployUnit', 'finishDeployment', 'leave'] as const) {
+        await expect(h.run(name, 3, { gameId, round: 1, cardStableId: 'archers', cell: 40, revision: 0 })).rejects.toMatchObject({ data: { code: 'GAME_NOT_AVAILABLE' } })
+      }
+      expect(h.tables).toEqual(before)
+    }
+  })
+
+  it('requires an authenticated active account', async () => {
     const live = await liveGame()
     await expect(live.read(0)).rejects.toMatchObject({ data: { code: 'UNAUTHENTICATED' } })
     live.tables.playerProfiles[2].active = false

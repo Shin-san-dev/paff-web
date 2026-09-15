@@ -84,7 +84,8 @@ export function ManualBattle({ game, busy, perform }: { game: Game } & BattleCon
   }
   const orderList = (seat: number, editable: boolean) => <ul className="manual-orders">{battle.catalog.filter((order) => order.seats.includes(seat)).map((order) => {
     const remaining = manual.stocks.find((item) => item.seat === seat && item.orderId === order.id)?.remaining
-    return <li key={order.id}><OrderInfo name={order.name} description={order.description} />{remaining === undefined ? <span className="manual-unlimited" aria-label="Illimité">∞</span> : editable ? <Counter label={`${order.name} restants`} value={remaining} busy={locked} onChange={(delta) => run(() => stock({ gameId: game.id, orderId: order.id, delta }))} /> : <span>{remaining}</span>}</li>
+    const unavailable = order.id === 'recruitment' && battle.turn < 2
+    return <li key={order.id}><div><OrderInfo name={order.name} description={order.description} />{unavailable && <small className="manual-order-availability">À partir du tour 2</small>}</div>{remaining === undefined ? <span className="manual-unlimited" aria-label="Illimité">∞</span> : editable ? <Counter label={`${order.name} restants`} value={remaining} busy={locked || unavailable} onChange={(delta) => run(() => stock({ gameId: game.id, orderId: order.id, delta }))} /> : <span>{remaining}</span>}</li>
   })}</ul>
 
   return <section className="manual-battle" aria-label="Plateau manuel">

@@ -131,6 +131,11 @@ describe('manual tabletop across two real clients', () => {
       fireEvent.dragEnd(element)
     }
     for (const user of [1, 2]) expect(await p(user).findByRole('heading', { name: 'À vous de jouer' })).toBeVisible()
+    for (const user of [1, 2]) {
+      expect(p(user).getByRole('button', { name: 'Diminuer Recrutement restants' })).toBeDisabled()
+      expect(p(user).getByRole('button', { name: 'Augmenter Recrutement restants' })).toBeDisabled()
+      expect(p(user).getByRole('button', { name: 'Diminuer Invokation shamanique restants' })).toBeEnabled()
+    }
     expect(p(1).queryByRole('button', { name: 'Jouer Mouvement' })).not.toBeInTheDocument()
     expect(p(1).queryByLabelText('Étapes de la partie')).not.toBeInTheDocument()
 

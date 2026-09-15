@@ -12,7 +12,7 @@ function setup() {
   return { ...h, apply }
 }
 
-describe('September 10 PDF roster', () => {
+describe('September 15 PDF roster', () => {
   it('publishes ten units per faction and preserves existing deck references', async () => {
     const { tables, apply } = setup()
     const entries = structuredClone(tables.deckCards)
@@ -70,10 +70,11 @@ describe('September 10 PDF roster', () => {
     expect(catalogue2026.some((unit) => unit.name.includes('Sef'))).toBe(false)
     expect(catalogue2026.find((unit) => unit.name === 'Porte-ordres Sephosiens')).toMatchObject({ stableId: 'sephosi-aides-de-camp-sephosiens', profile: { dice: 0, offense: { kind: 'none', score: null }, defenseRanged: 1 } })
     expect(catalogue2026.find((unit) => unit.name === 'Maréchal Vallardi')?.profile).toMatchObject({ dice: 0, offense: { kind: 'none', score: null }, ability: { name: 'Stratège' } })
-    expect(catalogue2026.find((unit) => unit.name === 'Bande de Gobelins')?.profile.regiment).toBe(2)
+    expect(catalogue2026.find((unit) => unit.name === 'Bande de Gobelins')?.profile).toMatchObject({ regiment: 2, dice: 2 })
     expect(catalogue2026.find((unit) => unit.name === 'Anges Protecteurs de la Sephosi')?.profile).toMatchObject({ regiment: 2, dice: 2, defenseMelee: 3, defenseRanged: 2 })
     expect(catalogue2026.every((unit) => unit.profile.defenseRangedFormat === undefined)).toBe(true)
-    expect(catalogue2026.find((unit) => unit.name === 'Archers Gobelins')?.profile).toMatchObject({ regiment: 2, dice: 3, offense: { kind: 'ranged', score: 1 }, defenseRanged: 1 })
+    expect(catalogue2026.find((unit) => unit.name === 'Archers Gobelins')?.profile).toMatchObject({ regiment: 1, dice: 2, offense: { kind: 'ranged', score: 1 }, defenseRanged: 1 })
+    expect(catalogue2026.find((unit) => unit.name === 'Epéistes Sephosiens')?.profile).toMatchObject({ regiment: 3, dice: 3, defenseMelee: 3, defenseRanged: 3 })
     expect(catalogue2026.find((unit) => unit.name === 'Balistes Sephosiennes')?.profile).toMatchObject({ unitType: 'artillery', offense: { kind: 'ranged', score: 6 } })
     for (const unit of catalogue2026) expect(existsSync(`public${unit.imagePath}`), unit.imagePath).toBe(true)
   })

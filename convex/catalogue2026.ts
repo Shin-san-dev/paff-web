@@ -25,7 +25,7 @@ export const apply = internalMutation({
           stableId: unit.stableId, factionId: faction._id, name: unit.name, cost: unit.cost,
           kind: 'unit' as const, profile: unit.profile, imagePath: unit.imagePath, abilities: unit.profile.ability ? [unit.profile.ability.name] : [],
           dataVersion: CATALOGUE_VERSION, status: 'published' as const, sourceLine: catalogue2026.indexOf(unit) + 2,
-          sourceNote: 'PAFF 2026.pdf transmis le 10/09/2026, p. 8 (unités) et p. 10 (capacités). Les x de Vallardi signifient aucune attaque, confirmé par Nicolas ; suivi dans docs/regles-implementees.md.',
+          sourceNote: 'PAFF 2026 (2).pdf transmis le 15/09/2026, p. 7 (unités) et p. 8 (capacités). Les x de Vallardi signifient aucune attaque, confirmé par Nicolas ; suivi dans docs/regles-implementees.md.',
         }
         if (!existing) { await ctx.db.insert('cards', fields); result.created++ }
         else if (Object.entries(fields).some(([key, value]) => !sameValue(existing[key as keyof typeof existing], value)) || existing.deckLimit !== undefined) {

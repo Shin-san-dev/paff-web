@@ -78,6 +78,7 @@ export const adjustOrderStock = mutation({
     const state = await load(ctx, args.gameId)
     const stock = state.manual.stocks.find((item) => item.seat === state.member.seat && item.orderId === args.orderId)
     if (!stock) return fail('ORDER_NOT_AVAILABLE')
+    if (args.orderId === 'recruitment' && state.battle.turn < 2) return fail('RECRUITMENT_NOT_YET_AVAILABLE')
     stock.remaining = counter(stock.remaining, args.delta)
     await save(ctx, state)
   },

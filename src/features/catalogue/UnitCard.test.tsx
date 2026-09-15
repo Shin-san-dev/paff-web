@@ -45,7 +45,7 @@ describe('public card catalogue', () => {
     expect(invocation).toHaveTextContent('4 fois par partie')
     expect(invocation).toHaveTextContent('sur 2–3, défaussez une unité de Shamans ; sur 4–5, aucun effet supplémentaire')
     expect(within(screen.getByRole('region', { name: 'Ordres communs' })).getAllByRole('article')).toHaveLength(4)
-    expect(screen.getByRole('article', { name: 'Recrutement' })).toHaveTextContent('à partir du tour 3')
+    expect(screen.getByRole('article', { name: 'Recrutement' })).toHaveTextContent('première est accessible à partir du tour 2')
     expect(screen.queryByRole('heading', { name: 'Archers Gobelins' })).not.toBeInTheDocument()
     rerender(<CardsCatalogue {...props} selectedFactionId="sephosi" />)
     expect(screen.getByRole('article', { name: 'Fureur divine' })).toHaveTextContent('2 fois par partie')

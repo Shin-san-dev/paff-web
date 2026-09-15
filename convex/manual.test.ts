@@ -13,6 +13,18 @@ async function table() {
 }
 
 describe('shared manual battle', () => {
+  it('locks both recruitment counter corrections during turn one and unlocks them at turn two', async () => {
+    const h = await table()
+    const before = structuredClone(h.tables)
+    for (const user of [1, 2]) for (const delta of [-1, 1]) await expect(h.manual('adjustOrderStock', user, { orderId: 'recruitment', delta })).rejects.toMatchObject(error('RECRUITMENT_NOT_YET_AVAILABLE'))
+    expect(h.tables).toEqual(before)
+    await h.manual('adjustTurn', 2, { delta: 1 })
+    await h.manual('adjustOrderStock', 1, { orderId: 'recruitment', delta: -1 })
+    expect((await h.read(2)).battle!.manual.stocks.find((stock) => stock.seat === 0 && stock.orderId === 'recruitment')?.remaining).toBe(2)
+    await h.manual('adjustOrderStock', 1, { orderId: 'recruitment', delta: 1 })
+    await h.manual('adjustTurn', 1, { delta: -1 })
+    await expect(h.manual('adjustOrderStock', 1, { orderId: 'recruitment', delta: -1 })).rejects.toMatchObject(error('RECRUITMENT_NOT_YET_AVAILABLE'))
+  })
   it('starts Sephosi battles with their own order stocks and synchronizes only the owner’s corrections', async () => {
     const setup = createGameHarness()
     setup.tables.factions[0].stableId = 'sephosi'

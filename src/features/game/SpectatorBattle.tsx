@@ -3,12 +3,18 @@ import { hitRule, type BattleUnit } from '../../../shared/battleEngine'
 import { getUnitProfile } from '../../../shared/unitProfile'
 import { TacticalBoard } from './TacticalBoard'
 import { OrderInfo } from './OrderInfo'
-import type { Game } from './types'
+import { phaseNames, type Game } from './types'
+import { PlayerLink } from '../players/PlayerLink'
 import './ManualBattle.css'
 
 export function SpectatorBattle({ game }: { game: Game }) {
   const battle = game.battle
-  if (!battle?.engine) return <p className="game-empty">Le plateau de cette partie n’est pas disponible.</p>
+  if (!battle?.engine) return <section aria-label="Préparatifs en mode spectateur">
+    <div className="game-section-heading"><h2>{phaseNames[game.phase]}</h2><p role="status">La partie se prépare…</p></div>
+    <p className="game-intro">{game.players.map((player, index) => <span key={player.id}>{index > 0 && ' · '}<PlayerLink userId={player.userId} displayName={player.displayName} /></span>)}</p>
+    <p className="game-intro">Vous suivez la partie en direct. Les choix des joueurs restent privés ; les unités apparaissent au fur et à mesure de leur déploiement.</p>
+    {game.phase === 'deployment' && game.setup && <TacticalBoard game={game} />}
+  </section>
   const { engine, manual } = battle
   const cardFor = (unit: BattleUnit) => game.players.find((player) => player.seat === unit.seat)?.deployedCards.find((card) => card.stableId === unit.cardStableId)
   const unitName = (unit: BattleUnit) => `${cardFor(unit)?.name ?? 'Unité'} · ${cellCoordinate(unit.cell)}`

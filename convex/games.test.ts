@@ -78,10 +78,10 @@ describe('two-player lobby and access', () => {
     expect((await run('listLobby')).currentGame?.phase).toBe('deck_selection')
     await expect(run('join', 3, { gameId })).rejects.toMatchObject(code('GAME_NOT_AVAILABLE'))
   })
-  it('hides private rooms from outsiders and rejects all their game mutations', async () => {
+  it('keeps preparation cards private and rejects all spectator game mutations', async () => {
     const { run, readyFor } = setup()
     const gameId = await readyFor()
-    expect(await run('get', 3, { gameId })).toBeNull()
+    expect(await run('get', 3, { gameId })).toMatchObject({ isSpectator: true, setup: null, players: [{ cards: [], deployedCards: [], deckId: null }, { cards: [], deployedCards: [], deckId: null }] })
     for (const name of ['start', 'selectDeck', 'updatePreparation', 'finishDeployment', 'leave', 'rollInitiative', 'confirmInitiative', 'deployUnit'] as const) {
       await expect(run(name, 3, { gameId, deckId: 'deck-1', cardStableId: 'archers', change: { quantity: 1 } })).rejects.toMatchObject(code('GAME_NOT_AVAILABLE'))
     }
