@@ -29,6 +29,16 @@ L’univers visuel mêle illustrations de fantasy, tons sombres et titres inspir
 
 Le projet est en cours de développement ; les règles et les fonctionnalités évolueront avec les essais des joueurs.
 
+## Atelier d’équilibrage
+
+La branche d’analyse comprend un simulateur hors ligne et une page privée `/admin/equilibrage`, réservée à Nicolas par vérification côté serveur. La [campagne de calibration](docs/equilibrage/campagne-calibration.md) décrit les 792 parties, les robots, les résultats et leurs limites. Ces mesures concernent des configurations simulées uniquement.
+
+`npm run simulate` génère les rapports avec Node 24 ; `npm run test:simulation` contrôle le moteur. `npm run check` exécute lint, types stricts de l’analyse, tests et build. Pour Convex, compléter par `npx tsc --noEmit -p convex/tsconfig.json`.
+
+L’[essai MCTS](docs/equilibrage/campagne-mcts.md) ajoute un déploiement adaptatif, alterné unité par unité, et une recherche des suites d’ordres. `npm run simulate:mcts` génère sa campagne séparée, ses duels contre le robot précédent et **20 parties à revoir pose par pose et ordre par ordre**. La campagne de référence reste consultable dans le même atelier. Les calculs restent hors ligne ; aucune simulation lourde ne s’exécute dans le navigateur ou dans Convex.
+
+Pour consulter l’atelier en développement : vérifier la cible `grateful-warthog-543`, synchroniser avec `npx convex dev --once`, puis lancer `npm run dev`. Le serveur autorise uniquement l’identifiant de compte défini dans `PAFF_SIMULATION_ADMIN_USER_ID`, configuré séparément dans chaque environnement. Voir la [procédure d’accès et de publication](docs/equilibrage/campagne-calibration.md#accès-privé-et-environnements).
+
 ## Publication
 
 Vercel exécute `npm run check` et publie l’interface lors d’un push sur `main`. Cette étape ne déploie pas les fonctions Convex et ne met pas à jour les cartes enregistrées en base.

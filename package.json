@@ -9,11 +9,15 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "vitest run",
+    "test:simulation": "vitest run analysis/simulation",
+    "simulate": "node scripts/simuler-paff.mjs",
+    "simulate:mcts": "node scripts/simuler-mcts.mjs",
     "test:functional": "vitest run src/functional",
     "test:watch": "vitest",
     "import:catalogue": "node scripts/import-catalogue.mjs",
     "import:catalogue:2026": "convex run catalogue2026:apply",
-    "check": "npm run lint && npm run test && npm run build",
+    "check:analysis": "tsc -p analysis/tsconfig.json",
+    "check": "npm run lint && npm run check:analysis && npm run test && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {

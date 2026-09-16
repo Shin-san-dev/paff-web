@@ -34,6 +34,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       </nav>
 
       <div className="site-bar__aside">
+      {player?.canUseSimulations && <nav aria-label="Administration"><NavLink to="/admin/equilibrage">Équilibrage</NavLink></nav>}
       <nav className="site-bar__about" aria-label="À propos de PAFF">
         <NavLink to="/journal">Journal</NavLink>
       </nav>
