@@ -41,10 +41,9 @@ describe('cell geometry and legal actions', () => {
   })
 })
 describe('hit-table advice and army preparation', () => {
-  it('matches all 36 hit-table thresholds and reroll edges', () => {
+  it('matches all 36 hit-table cells without rerolls or confirmations', () => {
     const rows = [[4, 3, 2, 2, 2, 2], [5, 4, 3, 2, 2, 2], [6, 5, 4, 3, 2, 2], [6, 6, 5, 4, 3, 2], [6, 6, 6, 5, 4, 3], [6, 6, 6, 6, 5, 4]]
-    rows.forEach((row, d) => row.forEach((threshold, a) => expect(hitRule(a + 1, d + 1).threshold).toBe(threshold)))
-    expect(hitRule(4, 1).reroll).toBe('fail'); expect(hitRule(1, 5).reroll).toBe('success')
+    rows.forEach((row, d) => row.forEach((threshold, a) => expect(hitRule(a + 1, d + 1)).toEqual({ threshold })))
   })
   it('enforces deck and deployment ceilings without a minimum deployment or a separate reserve cap', () => {
     const cards = [{ kind: 'unit' as const, cost: 2, quantity: 17, selectedQuantity: 11, profile: meleeProfile }]

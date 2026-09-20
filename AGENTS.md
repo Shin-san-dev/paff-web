@@ -30,3 +30,7 @@ Le développement et la production Convex ont des données distinctes. Vérifier
 # Suivi des règles
 
 Toute modification des règles ou du déroulement d’une partie doit mettre à jour `docs/regles-implementees.md` dans le même lot. Distinguer les comportements implémentés, les hypothèses WIP et les règles non encore appliquées. Conserver les références des règles pour faciliter les comparaisons avec les versions du Drive.
+
+# Simulateur séparé
+
+Depuis le 20 septembre 2026, les bots, l’apprentissage et les campagnes se développent dans le dépôt local voisin `paff-simulator`, avec ses propres instructions. Ne pas les réintroduire ici ni fusionner les anciennes branches de simulation pour publier le site. `shared/` se synchronise explicitement entre les dépôts ; préserver les références/caches historiques. L’atelier du site conserve seulement ses rapports et relectures historiques. Voir `docs/separation-simulateur.md`.

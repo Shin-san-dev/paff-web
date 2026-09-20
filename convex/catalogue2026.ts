@@ -25,7 +25,7 @@ export const apply = internalMutation({
           stableId: unit.stableId, factionId: faction._id, name: unit.name, cost: unit.cost,
           kind: 'unit' as const, profile: unit.profile, imagePath: unit.imagePath, abilities: unit.profile.ability ? [unit.profile.ability.name] : [],
           dataVersion: CATALOGUE_VERSION, status: 'published' as const, sourceLine: catalogue2026.indexOf(unit) + 2,
-          sourceNote: 'PAFF 2026 (2).pdf transmis le 15/09/2026, p. 7 (unités) et p. 8 (capacités). Les x de Vallardi signifient aucune attaque, confirmé par Nicolas ; suivi dans docs/regles-implementees.md.',
+          sourceNote: 'PAFF 2026 (3).pdf transmis le 18/09/2026, p. 8 (unités) et p. 9 (capacités), avec les réponses du créateur transmises par Nicolas, documentées dans docs/equilibrage/arbitrages-2026-09-18.md.',
         }
         if (!existing) { await ctx.db.insert('cards', fields); result.created++ }
         else if (Object.entries(fields).some(([key, value]) => !sameValue(existing[key as keyof typeof existing], value)) || existing.deckLimit !== undefined) {
@@ -34,7 +34,10 @@ export const apply = internalMutation({
       }
       // Preserve retired cards and deck references; players can remove them in the editor.
       for (const card of published) if (!units.some((unit) => unit.stableId === card.stableId)) {
-        await ctx.db.patch(card._id, { status: 'archived', dataVersion: CATALOGUE_VERSION }); result.archived++
+        await ctx.db.patch(card._id, {
+          status: 'archived', dataVersion: CATALOGUE_VERSION,
+          ...(card.stableId === 'gobelins-bande-du-chef' ? { name: 'Bande du Sef' } : {}),
+        }); result.archived++
       }
     }
     return result

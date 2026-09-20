@@ -69,7 +69,8 @@ describe('public card catalogue', () => {
     const unit = catalogue2026.find((unit) => unit.name === 'Le Danzereu')!
     render(<UnitCard card={{ ...card, ...unit, faction: card.faction }} />)
     await userEvent.hover(screen.getByRole('button', { name: /Ligne Verte/ }))
-    expect(screen.getByRole('tooltip')).toHaveTextContent('quel que soit son camp')
+    expect(screen.getByRole('tooltip')).toHaveTextContent('quel que soit le camp des cibles')
+    expect(screen.getByRole('tooltip')).toHaveTextContent('première case de la zone suivante')
     expect(screen.getByRole('tooltip')).toHaveTextContent('+1 dé et +1 A')
     expect(screen.getByRole('tooltip')).not.toHaveTextContent('en cours de définition')
   })

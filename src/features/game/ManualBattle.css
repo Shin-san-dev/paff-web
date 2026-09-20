@@ -40,8 +40,7 @@
 .manual-hit span { display: block; font-size: .6rem; color: #d6d0b7; }
 .manual-hit strong { display: block; margin-top: .35rem; font: 500 2.1rem var(--display); color: #f0e4ba; }
 .manual-hit small { font: .8rem var(--body); }
-.manual-note, .manual-reroll { margin: .6rem 0; color: #a5aa99; font-size: .68rem; line-height: 1.5; }
-.manual-reroll { color: #e1c78b; }
+.manual-note { margin: .6rem 0; color: #a5aa99; font-size: .68rem; line-height: 1.5; }
 .manual-duel > .ui-button { width: 100%; padding: .6rem .4rem; font-size: .7rem; }
 .manual-engaged-button { border-color: #c36c66; color: #e2a39c; background: #7b292933; }
 .manual-orders { padding: 0; margin: 0; list-style: none; }

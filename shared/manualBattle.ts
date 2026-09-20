@@ -1,7 +1,7 @@
 import { legalMoves, type BattleUnit, type EngineState } from './battleEngine'
 import type { UnitProfile } from './unitProfile'
 
-export const MANUAL_RULES_VERSION = '2026-09-15-manual-1'
+export const MANUAL_RULES_VERSION = '2026-09-18-manual-2'
 export type ManualState = {
   stocks: { seat: number; orderId: string; remaining: number }[]
   duel?: { attackerId: string; targetId?: string }

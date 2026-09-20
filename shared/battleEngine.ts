@@ -11,6 +11,9 @@ export type EngineState = {
 export type UnitCard = { stableId: string; seat: number; name: string; cost: number; profile: UnitProfile; quantity: number; entered: number }
 export const axisOf = (cell: number) => colOf(cell) < 2 ? 0 : colOf(cell) < 7 ? 1 : 2
 export const adjacent = (a: number, b: number) => isCell(a) && isCell(b) && Math.abs(rowOf(a) - rowOf(b)) + Math.abs(colOf(a) - colOf(b)) === 1
+// Board geometry never changes. Preserve the original ascending-cell order
+// without scanning all 54 cells at every step of every hypothetical movement.
+const neighbors = cells.map((from) => cells.filter((to) => adjacent(from, to)))
 export const enemiesOf = (engine: EngineState, unitId: string) => engine.engagements.flatMap((edge) => edge.a === unitId ? [edge.b] : edge.b === unitId ? [edge.a] : []).filter((id) => engine.units.some((unit) => unit.id === id))
 export const isEngaged = (engine: EngineState, unitId: string) => enemiesOf(engine, unitId).length > 0
 export const zoneName = (cell: number) => `${['Arrière nord', 'Base nord', 'Centre', 'Base sud', 'Arrière sud'][Number(zoneOf(cell).split('-')[0])]} · ${['Flanc coco', 'Centre', 'Flanc aux pommes'][axisOf(cell)]}`
@@ -23,7 +26,7 @@ export function legalMoves(engine: EngineState, unit: BattleUnit, profile: UnitP
   const result = new Map<number, { cell: number; path: number[]; cost: number }>()
   const startZone = zoneOf(unit.cell)
   const walk = (current: number, path: number[], cost: number, leftZone: boolean) => {
-    for (const next of cells.filter((cell) => adjacent(current, cell))) {
+    for (const next of neighbors[current] ?? []) {
       const nextCost = cost + 1 + (axisOf(next) !== axisOf(current) ? 1 : 0)
       if (nextCost > max || (!flying && occupied.has(next)) || next === unit.cell || path.includes(next) || (leftZone && zoneOf(next) === startZone)) continue
       const nextPath = [...path, next]
@@ -37,5 +40,5 @@ export function legalMoves(engine: EngineState, unit: BattleUnit, profile: UnitP
 
 export function hitRule(attack: number, defense: number) {
   const difference = attack - defense
-  return { threshold: Math.max(2, Math.min(6, 4 - difference)), reroll: difference >= 3 ? 'fail' as const : difference <= -4 ? 'success' as const : 'none' as const }
+  return { threshold: Math.max(2, Math.min(6, 4 - difference)) }
 }

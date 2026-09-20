@@ -8,7 +8,7 @@ Le [contexte de travail](docs/contexte-projet.md) rassemble le vocabulaire, les 
 
 ## Le site aujourd’hui
 
-- Un catalogue public réparti entre quatre factions, dont 10 unités Gobelins et 10 unités Sephosi avec les profils révisés du PDF reçu le 15 septembre 2026.
+- Un catalogue public réparti entre quatre factions, dont 10 unités Gobelins et 10 unités Sephosi avec les profils et ordres du 18 septembre 2026, complétés par les arbitrages du créateur : Djil, Skrans à 2 points, Gros tarrés à 1 et Bande du Sef archivée.
 - Un journal public et des profils communautaires, avec deux avatars de faction, le nombre de decks total et par faction, et le badge « Premier jour » pour les cinq membres initiaux ; voir la [mise en service](docs/journal-profils.md).
 - Un espace joueur privé pour créer, consulter, renommer et supprimer ses decks.
 - Une seule faction par deck, avec des quantités de cartes libres et une sauvegarde automatique.
@@ -16,7 +16,7 @@ Le [contexte de travail](docs/contexte-projet.md) rassemble le vocabulaire, les 
 - Un lobby à deux joueurs, la préparation privée, l’initiative et le déploiement sur 54 cases, puis un plateau manuel partagé avec déplacements, réserves, engagements, compteurs et dés synchronisés. Vol est pris en compte dans les déplacements ; Blop commence en réserve.
 
 L’état précis du jeu et les écarts encore ouverts sont suivis dans les [règles implémentées](docs/regles-implementees.md).
-Les trois unités modifiées et les retours de la première partie sont détaillés dans la [comparaison du 15 septembre](docs/differences-regles-2026-09-15.md).
+Les derniers changements sont détaillés dans la [comparaison du 18 septembre](docs/differences-regles-2026-09-18.md) et les [arbitrages](docs/equilibrage/arbitrages-2026-09-18.md). Djil utilise l’illustration fournie le 20 septembre ; les Gros tarrés celle du 16 septembre.
 
 L’univers visuel mêle illustrations de fantasy, tons sombres et titres inspirés des inscriptions anciennes.
 
@@ -29,15 +29,13 @@ L’univers visuel mêle illustrations de fantasy, tons sombres et titres inspir
 
 Le projet est en cours de développement ; les règles et les fonctionnalités évolueront avec les essais des joueurs.
 
-## Atelier d’équilibrage
+## Simulateur séparé
 
-La branche d’analyse comprend un simulateur hors ligne et une page privée `/admin/equilibrage`, réservée à Nicolas par vérification côté serveur. La [campagne de calibration](docs/equilibrage/campagne-calibration.md) décrit les 792 parties, les robots, les résultats et leurs limites. Ces mesures concernent des configurations simulées uniquement.
+Les bots, l’apprentissage Python/TorchRL, les campagnes et leur tableau de bord sont désormais dans le dépôt local **`../paff-simulator`**, indépendant et sans dépôt GitHub. Les développer là-bas, sans les intégrer à la publication du site. Voir [la séparation](docs/separation-simulateur.md).
 
-`npm run simulate` génère les rapports avec Node 24 ; `npm run test:simulation` contrôle le moteur. `npm run check` exécute lint, types stricts de l’analyse, tests et build. Pour Convex, compléter par `npx tsc --noEmit -p convex/tsconfig.json`.
+L’atelier privé `/admin/equilibrage` conserve ses rapports historiques et ses relectures, sans recalcul ni changement d’interface. Ses données `data/simulation/` restent des instantanés consultables ; le moteur de simulation et ses commandes ne sont plus dans ce dépôt.
 
-L’[essai MCTS](docs/equilibrage/campagne-mcts.md) ajoute un déploiement adaptatif, alterné unité par unité, et une recherche des suites d’ordres. `npm run simulate:mcts` génère sa campagne séparée, ses duels contre le robot précédent et **20 parties à revoir pose par pose et ordre par ordre**. La campagne de référence reste consultable dans le même atelier. Les calculs restent hors ligne ; aucune simulation lourde ne s’exécute dans le navigateur ou dans Convex.
-
-Pour consulter l’atelier en développement : vérifier la cible `grateful-warthog-543`, synchroniser avec `npx convex dev --once`, puis lancer `npm run dev`. Le serveur autorise uniquement l’identifiant de compte défini dans `PAFF_SIMULATION_ADMIN_USER_ID`, configuré séparément dans chaque environnement. Voir la [procédure d’accès et de publication](docs/equilibrage/campagne-calibration.md#accès-privé-et-environnements).
+`npm run check` vérifie le site (lint, tests, build). Pour Convex, compléter par `npx tsc --noEmit -p convex/tsconfig.json`. Le simulateur dispose de ses propres vérifications.
 
 ## Publication
 

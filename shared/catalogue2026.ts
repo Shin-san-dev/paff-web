@@ -1,7 +1,7 @@
 import type { UnitProfile, UnitType } from './unitProfile'
 import { unitAbilities, type UnitAbility } from './unitAbilities'
 
-export const CATALOGUE_VERSION = '2026-09-15'
+export const CATALOGUE_VERSION = '2026-09-18-arbitrages-2'
 type Unit = { stableId: string; faction: 'gobelins' | 'sephosi'; name: string; cost: number; imagePath: string; profile: UnitProfile }
 
 function unit(faction: Unit['faction'], slug: string, name: string, cost: number, type: UnitType, regiment: number, dice: number, kind: UnitProfile['offense']['kind'], score: number | null, dc: number, dt: number, ability?: UnitAbility, art?: string): Unit {
@@ -11,18 +11,19 @@ function unit(faction: Unit['faction'], slug: string, name: string, cost: number
   } }
 }
 
-// PAFF 2026 (2).pdf received 2026-09-15, p. 7 (profiles) and p. 8 (abilities).
+// PAFF 2026 (3).pdf received 2026-09-18, p. 8 (profiles) and p. 9 (abilities).
 // Keep IDs for renamed/reactivated cards so deck references remain valid.
 // Nicolas confirmed on 2026-09-10 that Vallardi's x fields mean no dice or attack.
 export const catalogue2026: Unit[] = [
   unit('gobelins', 'troupe-de-gobelins', 'Bande de Gobelins', 1, 'troop', 2, 2, 'melee', 2, 2, 1, undefined, 'troupe-de-gobelins'),
   unit('gobelins', 'archers-gobelins', 'Archers Gobelins', 1, 'ranged', 1, 2, 'ranged', 1, 1, 1, 'meleeShooting', 'archers-gobelins'),
   unit('gobelins', 'shaman-gobelin', 'Shamans Gobelins', 1, 'ranged', 1, 1, 'ranged', 3, 1, 1, 'magicalShot', 'shaman-gobelin'),
-  unit('gobelins', 'chevaucheurs-de-skrans-gobelins', 'Chevaucheurs de Skrans Gobelins', 1, 'cavalry', 2, 2, 'melee', 2, 2, 1, undefined, 'chevaucheurs-de-skrans-gobelins'),
+  unit('gobelins', 'chevaucheurs-de-skrans-gobelins', 'Chevaucheurs de Skrans Gobelins', 2, 'cavalry', 2, 2, 'melee', 2, 2, 1, undefined, 'chevaucheurs-de-skrans-gobelins'),
   unit('gobelins', 'katapult-a-gobs', 'Katapult à gobs', 2, 'artillery', 1, 1, 'ranged', 5, 1, 1, 'goblinRain', 'katapult-a-gobs'),
   unit('gobelins', 'meneurs-de-troll', 'Trolls', 3, 'elite', 2, 2, 'melee', 4, 5, 5, 'trollitude', 'meneurs-de-troll'),
-  unit('gobelins', 'bon-gros-tarre-de-gobelin', 'Gros tarrés de gobelins', 2, 'elite', 1, 1, 'melee', 5, 1, 1, undefined, 'bon-gros-tarre-de-gobelin'),
-  unit('gobelins', 'bande-du-chef', 'Bande du chef', 3, 'elite', 5, 4, 'melee', 3, 3, 2, undefined, 'bande-du-chef'),
+  unit('gobelins', 'bon-gros-tarre-de-gobelin', 'Gros tarrés de gobelins', 1, 'elite', 1, 1, 'melee', 5, 1, 1, undefined, 'bon-gros-tarre-de-gobelin'),
+  // Djil is a Troll without Trollitude; artwork supplied by Nicolas on 2026-09-20.
+  unit('gobelins', 'djil-meneur-de-trolls', 'Djil, meneur de Trolls', 4, 'unique', 3, 2, 'melee', 4, 5, 5, undefined, 'djil-meneur-de-trolls'),
   unit('gobelins', 'le-danzereu', 'Le Danzereu', 2, 'unique', 1, 2, 'ranged', 3, 1, 1, 'greenLine', 'le-danzereu'),
   unit('gobelins', 'blop-le-meuteur', 'Blop, le Meuteur', 2, 'unique', 3, 2, 'melee', 3, 2, 1, 'packmaster'),
   unit('sephosi', 'lanciers-sephosiens', 'Lanciers Sephosiens', 3, 'troop', 3, 2, 'melee', 3, 4, 3, 'spearWall', 'lanciers-sephosiens'),

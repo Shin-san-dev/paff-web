@@ -12,7 +12,7 @@ function setup() {
   return { ...h, apply }
 }
 
-describe('September 15 PDF roster', () => {
+describe('September 18 PDF roster', () => {
   it('publishes ten units per faction and preserves existing deck references', async () => {
     const { tables, apply } = setup()
     const entries = structuredClone(tables.deckCards)
@@ -66,8 +66,12 @@ describe('September 15 PDF roster', () => {
     expect(tables.deckCards).toEqual(entries)
   })
   it('replaces WIP values and represents Vallardi and the Porte-ordres without an attack', () => {
-    expect(catalogue2026.find((unit) => unit.name === 'Bande du chef')?.profile).toMatchObject({ regiment: 5, dice: 4, defenseRanged: 2 })
-    expect(catalogue2026.some((unit) => unit.name.includes('Sef'))).toBe(false)
+    expect(catalogue2026.some((unit) => unit.stableId === 'gobelins-bande-du-chef')).toBe(false)
+    const djil = catalogue2026.find((unit) => unit.stableId === 'gobelins-djil-meneur-de-trolls')!
+    expect(djil).toMatchObject({ name: 'Djil, meneur de Trolls', cost: 4, profile: { unitType: 'unique', regiment: 3, dice: 2, offense: { kind: 'melee', score: 4 }, defenseMelee: 5, defenseRanged: 5 } })
+    expect(djil.profile.ability).toBeUndefined()
+    expect(catalogue2026.find((unit) => unit.stableId === 'gobelins-chevaucheurs-de-skrans-gobelins')?.cost).toBe(2)
+    expect(catalogue2026.find((unit) => unit.stableId === 'gobelins-bon-gros-tarre-de-gobelin')?.cost).toBe(1)
     expect(catalogue2026.find((unit) => unit.name === 'Porte-ordres Sephosiens')).toMatchObject({ stableId: 'sephosi-aides-de-camp-sephosiens', profile: { dice: 0, offense: { kind: 'none', score: null }, defenseRanged: 1 } })
     expect(catalogue2026.find((unit) => unit.name === 'Maréchal Vallardi')?.profile).toMatchObject({ dice: 0, offense: { kind: 'none', score: null }, ability: { name: 'Stratège' } })
     expect(catalogue2026.find((unit) => unit.name === 'Bande de Gobelins')?.profile).toMatchObject({ regiment: 2, dice: 2 })
@@ -89,11 +93,29 @@ describe('September 15 PDF roster', () => {
     const entries = structuredClone(tables.deckCards)
     await apply()
     expect(tables.cards.find((card) => card._id === 'aide')).toMatchObject({ name: 'Porte-ordres Sephosiens', profile: { ability: { id: 'strategic-support', description: expect.stringContaining('autre axe') } } })
-    expect(tables.cards.find((card) => card._id === 'mad-goblin')).toMatchObject({ status: 'published', name: 'Gros tarrés de gobelins', cost: 2, profile: { unitType: 'elite', regiment: 1, dice: 1, offense: { score: 5 } } })
+    expect(tables.cards.find((card) => card._id === 'mad-goblin')).toMatchObject({ status: 'published', name: 'Gros tarrés de gobelins', cost: 1, profile: { unitType: 'elite', regiment: 1, dice: 1, offense: { score: 5 } } })
     expect(tables.deckCards).toEqual(entries)
     for (const unit of catalogue2026) if (unit.profile.ability) {
       expect(unit.profile.ability.id).toBeTruthy()
       expect(unit.profile.ability.description).not.toMatch(/en cours de définition|pas encore appliqué/)
     }
+  })
+  it('archives the Bande du Sef without converting decks or frozen units into Djil', async () => {
+    const h = setup()
+    Object.assign(h.tables.cards[0], { stableId: 'gobelins-bande-du-chef', name: 'Bande du chef', cost: 3,
+      profile: { unitType: 'elite', regiment: 5, dice: 4, offense: { kind: 'melee', score: 3 }, defenseMelee: 3, defenseRanged: 2, source: 'defined' } })
+    // Four elites respect the existing deck quota.
+    h.tables.deckCards = h.tables.deckCards.filter((entry) => entry.cardId !== 'troll')
+    for (const entry of h.tables.deckCards) if (entry.cardId === 'unit') entry.quantity = 4
+    await h.readyFor('preparation')
+    const frozen = structuredClone(h.tables.gameCards), entries = structuredClone(h.tables.deckCards)
+    await h.apply()
+    expect(h.tables.cards.find((card) => card._id === 'unit')).toMatchObject({ stableId: 'gobelins-bande-du-chef', name: 'Bande du Sef', status: 'archived', cost: 3 })
+    expect(h.tables.cards.filter((card) => card.stableId === 'gobelins-djil-meneur-de-trolls')).toHaveLength(1)
+    expect(h.tables.gameCards).toEqual(frozen)
+    expect(h.tables.deckCards).toEqual(entries)
+    await expect(h.invoke('decks', 'adjustCardQuantity', 1, { deckId: 'deck-1', cardStableId: 'gobelins-bande-du-chef', delta: 1 })).rejects.toMatchObject({ data: { code: 'CARD_NOT_AVAILABLE' } })
+    await h.invoke('decks', 'setCardQuantity', 1, { deckId: 'deck-1', cardStableId: 'gobelins-bande-du-chef', quantity: 0 })
+    expect(h.tables.deckCards.some((entry) => entry.deckId === 'deck-1' && entry.cardId === 'unit')).toBe(false)
   })
 })
