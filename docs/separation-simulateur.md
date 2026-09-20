@@ -13,6 +13,8 @@ Les fichiers ignorés laissés dans l’ancien dossier `analysis/` servent de sa
 
 ## Validation et publication
 
-Site : 257 tests réussis, lint sans avertissement, types Convex et compilation réussis. La publication comporte l’interface Vercel, les fonctions Convex sur `tough-gecko-249`, puis l’application du catalogue en production. Une étape ne vaut pas réussite des autres ; les identifiants et contrôles de publication seront consignés après exécution.
+Site : 257 tests réussis, lint sans avertissement, types Convex et compilation réussis. Commit fonctionnel `e3ef6e395f24a52edfa58946d818b5e8cd868119` poussé sur `main`. [Déploiement Vercel](https://vercel.com/nicolas-castejons-projects/paff-web/6ZdccQk4P64dSL6fHpcjhf1Zf8i6) terminé avec succès. Fonctions Convex déployées sur `tough-gecko-249`, sans suppression d’index ; application du catalogue en production : **1 création, 19 mises à jour, 1 archivage**.
+
+Contrôle du [catalogue public](https://paff-web.vercel.app/cards) : dix Gobelins, Djil à 4 points avec le visuel fourni, Gros tarrés à 1, Skrans à 2 ; les deux images chargent en 1254 × 1254 et Djil a été vérifié visuellement. Recrutement, Pause-déjeuner, La gross Invokation, Tir concentré et Fureur divine affichent les nouveaux textes. Les parties déjà préparées conservent leurs copies de profils et d’ordres.
 
 Simulateur : 308 tests Vitest et compilation du laboratoire réussis ; huit contrôles Node de sélection/rapport réussis. Les derniers contrôles Python et de reprise restent à faire : la commande de vérification a été refusée, puis Nicolas demande explicitement de reprendre le simulateur plus tard. Ne pas présenter cette extraction comme une reprise Python complète validée. Le dépôt local reste non commité, sans distant, et son tableau de bord n’est pas démarré. Continuer uniquement la publication du site dans cette tâche.
