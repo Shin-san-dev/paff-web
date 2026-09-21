@@ -1,0 +1,11 @@
+# Local archives and runtime data are not part of the website deployment.
+analysis/
+.convex/
+.git/
+node_modules/
+dist/
+dist-ssr/
+.env
+.env.*
+*.log
+.DS_Store
