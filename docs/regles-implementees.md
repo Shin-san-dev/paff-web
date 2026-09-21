@@ -1,6 +1,6 @@
 # PAFF — règles implémentées
 
-**État du 18 septembre 2026 après arbitrages · version de partie `2026-09-18-manual-2` · catalogue d’unités `2026-09-18-arbitrages-2`.**
+**État du 21 septembre 2026 · version de partie `2026-09-21-manual-1` · catalogue d’unités `2026-09-21-gaeli-1`.**
 
 Ce document décrit le comportement du site de cette version. Il sert de référence pour comparer l’application avec les prochaines versions du Drive. Il ne remplace pas les règles du créateur : les points encore provisoires sont indiqués explicitement.
 
@@ -14,21 +14,24 @@ Référence précédente du 11 septembre : **PAFF 2026 (1).pdf**, 10 pages. Les 
 
 Référence précédente du 15 septembre : **PAFF 2026 (2).pdf**, 9 pages. Recrutements aux tours 2/3/4 (p. 2), suppression du dé de charge générique (p. 4), trois unités modifiées (p. 7). Nicolas autorise explicitement un déploiement inférieur à 21 points avec une réserve supérieure à 12, malgré la limite de réserve encore écrite p. 1. Voir la [comparaison du 15 septembre](differences-regles-2026-09-15.md).
 
-**Référence courante : PAFF 2026 (3).pdf**, 10 pages, reçu le 18 septembre. Le [diff détaillé](differences-regles-2026-09-18.md) conserve les changements et les quatre hypothèses provisoires autorisées par Nicolas. Catalogue, descriptions et aide aux touches actualisés ; les effets restent manuels. Le simulateur est maintenant maintenu dans le dépôt local séparé `paff-simulator` ; ses résultats ne modifient pas les règles du site.
+**Référence précédente : PAFF 2026 (3).pdf**, 10 pages, reçu le 18 septembre. Le [diff détaillé](differences-regles-2026-09-18.md) conserve les changements et les quatre hypothèses provisoires autorisées par Nicolas. Catalogue, descriptions et aide aux touches actualisés ; les effets restent manuels. Le simulateur est maintenant maintenu dans le dépôt local séparé `paff-simulator` ; ses résultats ne modifient pas les règles du site.
 
 **Réponses du créateur après le lot B :** Tir concentré exige deux tireurs par zone ; Djil est confirmé Troll sans Trollitude, exclu des sacrifices et de La gross Invokation ; seuls les dés du profil doublent ; Pluie vise uniquement les ennemis ; Ligne Verte ne tue pas son lanceur par dégâts collatéraux. Le vocal précise le départ dans la zone suivante, en ignorant toute case de la zone du lanceur : E4→E2 au Sud, E3→E5 au Nord. Cette géométrie est appliquée au simulateur et aux bots. [Réponses et précision vocale](equilibrage/arbitrages-2026-09-18.md).
+
+**Référence courante : PAFF 2026 (4).pdf**, reçu le 21 septembre, p. 7–9 : quatre ordres, dix unités et cinq capacités Gaeli. Les descriptions d’illustration ne sont pas des règles. Les arbitrages du 18 septembre restent appliqués aux Gobelins/Sephosi. Nicolas demande séparément de masquer les Orcs et de retirer leurs cartes des decks. [Comparaison et suivi](differences-regles-2026-09-21.md).
 
 ## 1. Catalogue et profils
 
 | Référence | Comportement appliqué |
 | --- | --- |
-| CAT-01 | Le catalogue possède quatre factions. La révision du 18 septembre compte 20 unités actives (10 Gobelins, 10 Sephosi) : Djil entre, la Bande du Sef est archivée. Skrans coûtent 2 points, Gros tarrés 1. Orcs et Gaeli conservent leurs anciennes cartes et leurs profils estimés. |
-| CAT-02 | Une unité possède un nom, un coût, un type, R (points de Régiment), un nombre de dés, un mode offensif C, T ou aucun, une valeur offensive éventuelle, DC et DT. Vallardi et les Porte-ordres n’ont ni dés ni attaque ; leur carte affiche « — », sans mode C/T fictif. Le nombre de dés est indépendant de C/T. L’affichage du 7 septembre remplace DA par DC et regroupe score et mode, par exemple `4C` ou `3T` ; les valeurs et calculs restent identiques. |
+| CAT-01 | Le catalogue possède trois factions actives de dix unités chacune : Gobelins, Sephosi et Gaeli. Les Gaeli reprennent les profils du 21 septembre. Djil reste actif, la Bande du Sef archivée ; Skrans coûtent 2 points, Gros tarrés 1. Les Orcs sont archivés, masqués et non sélectionnables (CAT-08). |
+| CAT-02 | Une unité possède un nom, un coût, un type, R (points de Régiment), un nombre de dés, un mode offensif C, T ou aucun, une valeur offensive éventuelle, DC et DT. Vallardi, les Porte-ordres, les Druides et les Gardiens des Cen’ n’ont ni dés ni attaque ; leur carte affiche « — », sans mode C/T fictif. Le nombre de dés est indépendant de C/T. L’affichage du 7 septembre remplace DA par DC et regroupe score et mode, par exemple `4C` ou `3T` ; les valeurs et calculs restent identiques. |
 | CAT-03 | Types disponibles : Troupe, Tir, Cavalerie, Artillerie, Élite, Unique. Cavalerie et Artillerie ont leurs limites de mouvement ; le mode C ou T détermine la défense utilisée par l’aide au combat. |
-| CAT-04 | Les 12 capacités attribuées aux unités sont affichées avec leur définition du PDF du 18 septembre p. 9, complétée par les arbitrages documentés. Vol est pris en compte dans la géométrie de mouvement et Meuteur ! interdit le déploiement initial de Blop. Les autres effets sont arbitrés par les joueurs sur le plateau manuel ; ils ne sont plus présentés comme des définitions manquantes. Voir CAP-01 à CAP-04 ci-dessous. |
-| CAT-05 | Les identifiants des cartes renommées sont conservés pour préserver les decks. Les autres anciennes cartes Gobelins/Sephosi, y compris les cartes Action, sont archivées : elles restent lisibles dans les anciens decks mais ne sont plus ajoutables ni utilisables pour sélectionner un deck dans une nouvelle partie. L’éditeur permet de les retirer. |
+| CAT-04 | Les 17 capacités attribuées aux unités sont affichées avec leur définition et les arbitrages documentés : douze du 18 septembre et cinq Gaeli du 21 septembre, p. 9. Vol est pris en compte dans la géométrie de mouvement ; Meuteur ! et Charge du Gardien interdisent le déploiement initial de Blop et du Grand Gardien. Les autres effets sont arbitrés par les joueurs sur le plateau manuel ; ils ne sont plus présentés comme des définitions manquantes. Voir CAP-01 à CAP-06 ci-dessous. |
+| CAT-05 | Les identifiants des cartes renommées sont conservés pour préserver les decks. Les autres anciennes cartes Gobelins/Sephosi/Gaeli, y compris les cartes Action, sont archivées : elles restent lisibles dans les anciens decks mais ne sont plus ajoutables ni utilisables pour sélectionner un deck dans une nouvelle partie. L’éditeur permet de les retirer. |
 | CAT-06 | Une partie conserve une copie des cartes au choix du deck. Les mises à jour ultérieures du catalogue ou du deck ne modifient pas ces copies. Les ordres sont également figés dans la partie au début du tour 1. |
 | CAT-07 | La page Cartes propose « Unités / Ordres ». Les ordres de la faction choisie et les quatre ordres communs sont consultables sans connexion, avec leurs effets complets, catégories et limites. Le référentiel est partagé avec celui utilisé au début des batailles ; les ordres ne sont pas des unités du catalogue en base. |
+| CAT-08 | La migration archive la faction Orcs et toutes ses cartes, et supprime les entrées Orcs de tous les decks, y compris celles de cartes déjà archivées. Les decks vidés conservent nom et propriétaire, sans faction imposée, pour être recomposés. Les anciens instantanés de partie ne sont pas modifiés. Les contrôles existants de statut empêchent création de deck Orcs, ajout de carte et nouvelle sélection. |
 
 ### Présentation des cartes — décision de Nicolas du 7 septembre
 
@@ -41,7 +44,7 @@ Référence précédente du 15 septembre : **PAFF 2026 (2).pdf**, 9 pages. Recru
 
 ### Valeurs du catalogue courant
 
-Les valeurs viennent du PDF du 18 septembre p. 8. Tous les DT sont numériques, sans ancien signe `+`. Les `x` de Vallardi et les tirets des Porte-ordres représentent l’absence d’attaque : zéro dé en données, score `null`, mode `none`, affichage « — ». Ils ne sont pas des profils offensifs en attente.
+Les valeurs viennent du PDF du 18 septembre p. 8 et des arbitrages, complétés par les dix Gaeli du PDF du 21 septembre p. 8. Tous les DT sont numériques, sans ancien signe `+`. Les `x` de Vallardi et les tirets des Porte-ordres, Druides et Gardiens des Cen’ représentent l’absence d’attaque : zéro dé en données, score `null`, mode `none`, affichage « — ». Ils ne sont pas des profils offensifs en attente.
 
 | Faction | Unité | Coût | Type | R | Dés | C/T | DC | DT | Capacité |
 | --- | --- | ---: | --- | ---: | ---: | --- | ---: | ---: | --- |
@@ -65,6 +68,18 @@ Les valeurs viennent du PDF du 18 septembre p. 8. Tous les DT sont numériques, 
 | Sephosi | Porte-ordres Sephosiens | 2 | Élite | 1 | — | — | 1 | 1 | Appui stratégique |
 | Sephosi | Maréchal Vallardi | 2 | Unique | 1 | — | — | 1 | 1 | Stratège |
 | Sephosi | Régiment de la Salamandre | 4 | Unique | 3 | 3 | C 4 | 4 | 4 | — |
+| Gaeli | Combattants des Vlands | 2 | Troupe | 2 | 2 | C 3 | 2 | 2 | — |
+| Gaeli | Longues Lames | 3 | Troupe | 3 | 4 | C 4 | 3 | 2 | — |
+| Gaeli | Archers longs Gaeliens | 2 | Tir | 2 | 3 | T 2 | 1 | 1 | — |
+| Gaeli | Gardiens des Cen' | 1 | Tir | 1 | — | — | 1 | 1 | Chant des Ancêtres |
+| Gaeli | Druides | 1 | Tir | 1 | — | — | 1 | 1 | Bran Teha |
+| Gaeli | Eclaireurs des Vlands | 2 | Cavalerie | 2 | 2 | C 2 | 2 | 1 | — |
+| Gaeli | Servlanders | 4 | Élite | 3 | 3 | C 4 | 3 | 4 | — |
+| Gaeli | Esprits des Bois | 3 | Élite | 3 | 3 | C 3 | 3 | 3 | Ethérés |
+| Gaeli | Chefs de Clan de la Gaeli | 3 | Unique | 2 | 2 | C 3 | 3 | 2 | Pour la Gaeli ! |
+| Gaeli | Grand Gardien | 4 | Unique | 2 | 2 | C 5 | 4 | 2 | Charge du Gardien |
+
+**Gaeli :** les identifiants des Combattants des Vlands, Druides, Esprits des Bois et Chefs de Clan sont conservés. Sorl Caleit et les trois anciennes cartes Action sont archivés. Dix images carrées 1:1, énergie druidique bleue ; sept créations et trois recompositions de visuels existants. [Prompts et fichiers](illustrations-gaeli-2026-09-21.json).
 
 **Noms et identités conservés :** le nom **« Bande du Sef »** remplace « Bande du chef » à la demande de Nicolas du **16 septembre**, qui annule la correction du 6 septembre. L’identifiant `gobelins-bande-du-chef` reste stable et est désormais **archivé** : les anciens decks gardent cette référence et peuvent la retirer ; aucune nouvelle sélection n’est autorisée. Djil possède son propre identifiant `gobelins-djil-meneur-de-trolls` et ne remplace aucune carte dans les parties existantes. « Baliste Sephosiennes » est harmonisé en « Balistes Sephosiennes ». « Pluie de Gob » (p. 8) et « Pluie de gobs » (p. 7) désignent la même capacité, affichée « Pluie de gobs ». Troupe de Gobelins, Shaman Gobelin, Meneurs de Troll, Arbalétriers avec Pavois et Arbalétriers Montés conservent leurs identifiants historiques. Aides de camp devient Porte-ordres avec le même identifiant. Le Bon gros tarré et le Régiment de la Salamandre sont réactivés sur leur carte existante, sans dupliquer les références des decks.
 
@@ -72,7 +87,7 @@ Les valeurs viennent du PDF du 18 septembre p. 8. Tous les DT sont numériques, 
 
 **Illustrations :** les Porte-ordres conservent l’ancienne illustration des Aides de camp ; les Gros tarrés et la Salamandre reprennent leur visuel existant. Les images `catagob.png` et `danzereux.png` fournies le 10 septembre illustrent la Katapult à gobs et Le Danzereu. Après validation du nouveau plateau, Nicolas a remplacé les illustrations des Shamans (`gobelins-shaman-gobelin-2.jpg`), des Chevaucheurs de Skrans (`nouveaux-skrans.png`, qui remplace `skrans.png`) et de la Bande de Gobelins (`troupe-gobelins.png`). Elles sont converties en WebP sans recadrage, aux mêmes chemins pour actualiser aussi les cartes déjà présentes dans les decks et les parties. Seuls Blop et Vallardi utilisent encore l’illustration d’attente parmi les 20 profils. Djil utilise depuis le 20 septembre l’image fournie par Nicolas montrant un gobelin dirigeant des Trolls, convertie sans recadrage en `gobelins-djil-meneur-de-trolls.webp`. Les Trolls ordinaires conservent leur illustration.
 
-### Capacités du PDF du 18 septembre p. 9
+### Capacités — PDF des 18 et 21 septembre p. 9
 
 | Référence | Traitement dans l’application |
 | --- | --- |
@@ -80,6 +95,8 @@ Les valeurs viennent du PDF du 18 septembre p. 8. Tous les DT sont numériques, 
 | CAP-02 | **Meuteur !** : Blop doit rester en réserve pendant la préparation et ne peut pas être placé avec l’armée initiale. Contrôle à la sélection, à sa validation et au placement. Son entrée ultérieure passe par le recrutement manuel normal. Le 1D3 de Skrans gratuits est arbitré par les joueurs ; aucune unité supplémentaire n’est générée automatiquement. |
 | CAP-03 | Définitions complètes consultables pour **Appui stratégique, Charge puissante, Ligne Verte, Mur de lance, Pluie de gobs, Stratège, Tir en mêlée, Tir en mouvement, Tir magique et Trollitude**. Les joueurs appliquent les bonus, malus, cibles, relances, sacrifices, blessures et ordres supplémentaires avec les outils manuels existants. Le profil de base de l’aide au combat n’intègre pas ces modificateurs. |
 | CAP-04 | L’ancienne capacité **Repli stratégique**, non attribuée et mentionnant un dé P, est retirée du référentiel courant. L’ordre Sephosi homonyme reste disponible. Les copies de capacités dans les anciennes parties sont conservées. Djil n’a aucune capacité et possède son illustration propre depuis le 20 septembre. |
+| CAP-05 | **Charge du Gardien** : Grand Gardien obligatoirement en réserve pendant la préparation, contrôlé à la sélection, à la validation et au placement. Son arrivée ultérieure reste un recrutement manuel. La définition précise Druides alliés non engagés en zone Arrière, colonne commune, premier ennemi, emplacements intermédiaires vides, limite de zone Centre, engagement et +1 dé par case vide parcourue lors de la première charge ; ces conditions et bonus sont arbitrés par les joueurs. |
+| CAP-06 | **Bran Teha** : Druides non engagés, allié à portée de tir même engagé, 5+ sur 1D6 pour récupérer 1 R sans dépasser le profil. **Chant des Ancêtres** : source non engagée, une relance de dé en combat pour les alliés de la même zone. **Ethérés** : attaquants/tireurs perdent un dé, minimum un. **Pour la Gaeli !** : les autres alliés de la même zone gagnent un dé en combat. Définitions consultables ; conditions, dés et corrections de R restent manuels. |
 
 ## 2. Decks et lobby
 
@@ -123,7 +140,7 @@ Source : retours de démo de Nicolas, précisions sur R, autonomie et absence de
 | Référence | Comportement implémenté |
 | --- | --- |
 | MAN-TURN | Après le déploiement, plateau commun sans joueur actif, phase d’ordre ni validation de fin de tour. Les deux joueurs peuvent agir. Compteur de tour partagé, +/− accessibles aux deux joueurs, départ à 1, sans limite de huit tours ; le compteur Recrutement est verrouillé tant que le tour vaut 1 (MAN-RECRUIT-TIMING). |
-| MAN-ORD | Liste des ordres à droite, noms non cliquables et définitions au survol ou au focus. Quatre ordres communs : Mouvement, Tir, Tir Artillerie, Recrutement, et quatre ordres propres à chaque faction Gobelins/Sephosi, issus du PDF du 18 septembre p. 7, complétés par les arbitrages documentés et détaillés ci-dessous. Déchainement Shamanique et WAAAGGGHHH sont retirés des nouveaux catalogues de bataille. Les définitions et compteurs déjà copiés dans les batailles commencées sont conservés. |
+| MAN-ORD | Liste des ordres à droite, noms non cliquables et définitions au survol ou au focus. Quatre ordres communs : Mouvement, Tir, Tir Artillerie, Recrutement, et quatre ordres propres à chaque faction Gobelins/Sephosi/Gaeli, issus des PDF des 18 et 21 septembre p. 7, complétés par les arbitrages documentés et détaillés ci-dessous. Déchainement Shamanique et WAAAGGGHHH sont retirés des nouveaux catalogues de bataille. Les définitions et compteurs déjà copiés dans les batailles commencées sont conservés. |
 | MAN-STOCK | Les ordres illimités affichent ∞. Compteurs réglés par leur propriétaire et visibles par l’adversaire : Recrutement commence à 3 ; chaque faction a un ordre avancé à 4, un rare à 2 et un unique à 1. Les deux joueurs d’une même faction possèdent des stocks distincts. Aucun stock n’est consommé automatiquement ni contrôlé pour autoriser une action. Les limites des règles générales et du tableau des ordres p. 7 concordent. |
 | MAN-RECRUIT-TIMING | La définition de Recrutement précise le calendrier du PDF du 18 septembre p. 3 : première sélection accessible à partir du tour 2, deuxième à partir du tour 3, troisième à partir du tour 4. Le texte distingue désormais le stock de points (+3 aux tours 2/4/5, conservé) et les sélections ; il précise les dépenses libres, les PS, la zone sans ennemi non engagé et le tir interdit aux recrues ce tour-ci. Le compteur représente les trois sélections restantes sur la partie ; il ne représente pas le nombre actuellement débloqué. Au tour 1, les boutons +/− de Recrutement sont désactivés avec la mention « À partir du tour 2 » ; toute correction directe du stock est aussi refusée au serveur. Le passage à 2 les active, un retour à 1 les verrouille à nouveau sans réinitialiser le stock. Les disponibilités progressives suivantes et les effets restent arbitrés par les joueurs. Le déplacement manuel d’une réserve vers le plateau reste possible, notamment pour les ordres de faction ; aucun paiement automatique ajouté. |
 | MAN-MOVE | Glisser une de ses unités avec le bouton gauche éclaire les destinations possibles. L’entrée sur une case autorisée accepte immédiatement le dépôt, y compris lors d’un geste rapide. Le dépôt valide le mouvement. Annuler le geste ou lâcher hors d’une case autorisée ne déplace rien. Alternative clavier/tactile : sélectionner l’unité puis une case ; Échap annule la sélection de déplacement. |
@@ -147,7 +164,7 @@ Source : retours de démo de Nicolas, précisions sur R, autonomie et absence de
 
 Les compteurs sont bornés techniquement à 0–999 (tour : 1–999), et le lanceur à 100 dés par jet. Ce sont des limites d’interface et de stockage, pas des quotas de jeu.
 
-### Ordres de faction — PDF du 18 septembre p. 7 et arbitrages
+### Ordres de faction — PDF des 18 et 21 septembre p. 7 et arbitrages
 
 | Faction | Ordre | Limite par partie | Définition consultable ; application manuelle |
 | --- | --- | --- | --- |
@@ -159,6 +176,10 @@ Les compteurs sont bornés techniquement à 0–999 (tour : 1–999), et le lanc
 | Sephosi | Tir concentré | 4 · Avancé | Au moins deux tireurs éligibles d’une même zone, artillerie incluse, tirent immédiatement sur une cible commune avec +1 dé chacun, sans ordre Tir supplémentaire. Un tireur seul ne suffit pas, y compris dans une zone copiée avec Appui. |
 | Sephosi | Fureur divine | 2 · Rare | Anges de la réserve payés avec points de recrutement et/ou PS, sur une case libre de toute zone, même ennemie ou en Base Centre. Aucun Recrutement commun supplémentaire requis. |
 | Sephosi | Protéger la Salamandre ! | 1 · Unique | Salamandre engagée dans une zone : les autres unités gagnent +2 dés en attaquant des unités dans cette zone. |
+| Gaeli | Tir longue portée | Illimité | Archers longs Gaeliens : tir à portée 4, droit devant dans la même colonne. |
+| Gaeli | Course héroique | 4 · Avancé | Gardiens des Cen’ présents dans un axe : ordre de Mouvement avec un emplacement supplémentaire pour les Vlands, Combattants ou Eclaireurs. |
+| Gaeli | Appel des vents | 2 · Rare | Druides non engagés dans l’aire de jeu requis ; aucun tir, sauf artillerie, jusqu’à la fin du tour. |
+| Gaeli | Convocation des Esprits | 1 · Unique | Sacrifier des Druides pour recruter gratuitement une unité d’Esprits des Bois à leur place. |
 
 ## 5. WIP, règles laissées aux joueurs et éléments reportés
 
@@ -171,11 +192,13 @@ Le moteur, les bots et l’apprentissage sont maintenus depuis le 20 septembre d
 - **Préparation conservée** : deck de faction unique, budgets et quotas du §2, sélection privée et placement de toutes les unités choisies du §3. Les demandes de simplification portent sur le plateau après cette préparation.
 - **Arbitrage manuel** : ordres exécutés, nombre d’actions, coûts de recrutement, points stratégiques, légalité des tirs/combats, modificateurs, relances, blessures et victoire. Le moteur automatique précédent est supprimé.
 - **Décors et événements** : toujours reportés. Pas de placement de décor, ligne de tir obstruée ou événement automatique.
-- **Capacités et ordres** : les définitions sont actualisées avec les réponses du créateur ; la géométrie centrale de Ligne Verte est précisée par le vocal ; Vol et la restriction de déploiement de Blop sont appliqués. Les huit ordres de faction sont intégrés, avec le dé d’Invokation shamanique corrigé par Nicolas (1 / 2–3 / 4–5 / 6). Les bonus, sacrifices, jets, soins et recrutements gratuits restent à la main des joueurs, conformément au plateau manuel. Seul le verrou de correction du stock Recrutement au tour 1 est appliqué ; le calendrier progressif des sélections reste manuel.
+- **Capacités et ordres** : les définitions sont actualisées avec les réponses du créateur ; la géométrie centrale de Ligne Verte est précisée par le vocal ; Vol et les restrictions de déploiement de Blop et du Grand Gardien sont appliqués. Les douze ordres de faction sont intégrés, avec le dé d’Invokation shamanique corrigé par Nicolas (1 / 2–3 / 4–5 / 6). Les bonus, sacrifices, jets, soins et recrutements gratuits restent à la main des joueurs, conformément au plateau manuel. Seul le verrou de correction du stock Recrutement au tour 1 est appliqué ; le calendrier progressif des sélections reste manuel.
 - **Réserve** : le coût est indicatif ; les joueurs choisissent eux-mêmes où et combien recruter. Seuls l’espace libre et la possession réelle de l’exemplaire sont imposés.
-- **Profils** : les 20 profils Gobelins/Sephosi sont définis, y compris l’absence d’attaque de Vallardi. Les estimations Orcs/Gaeli sont conservées. La capacité inutilisée Repli stratégique avec dé P est supprimée ; l’ordre Sephosi de déplacement est conservé. Ligne Verte et l’origine des Skrans sont précisées dans la référence `adrien-03` : les renforts sont créés hors deck, mais aucune création automatique n’est ajoutée au site.
+- **Profils** : les 30 profils Gobelins/Sephosi/Gaeli sont définis. Les quatre unités de soutien sans attaque affichent « — ». Les profils estimés restent uniquement dans les cartes ou parties historiques ; aucun Orc n’est sélectionnable. La capacité inutilisée Repli stratégique avec dé P est supprimée ; l’ordre Sephosi de déplacement est conservé. Ligne Verte et l’origine des Skrans sont précisées dans la référence `adrien-03` : les renforts sont créés hors deck, mais aucune création automatique n’est ajoutée au site.
 
 ## 6. Suivi de l’implémentation
+
+- **Lot Gaeli du 21 septembre :** 261 tests, lint, build et types Convex réussis. Développement **grateful-warthog-543** synchronisé et catalogue appliqué : **6 créations, 24 mises à jour, 12 archivages, 1 faction désactivée, 13 entrées Orcs retirées de 2 decks**. Deuxième application : tous les compteurs à zéro. Catalogue public local : trois factions et dix Gaeli, illustrations carrées et ordres consultables. Aucun changement de données en production. Voir le [suivi de la preview](differences-regles-2026-09-21.md#vérification-et-preview).
 
 - **Publication réalisée le 20 septembre :** règles et descriptions consolidées du 18 septembre, nouveaux coûts, Djil avec son illustration propre et Gros tarrés avec l’image fournie. Commit `e3ef6e3` publié sur Vercel ; fonctions et catalogue appliqués à Convex **tough-gecko-249** (1 création, 19 mises à jour, 1 archivage). Cartes, images et ordres contrôlés sur le site public ; 257 tests, lint, types Convex et build réussis. Extraction du moteur et de l’apprentissage vers `paff-simulator`, atelier historique conservé ; suite du simulateur reportée à la demande de Nicolas. Les effets des ordres restent manuels. Les profils/ordres déjà copiés dans les parties ne sont pas migrés.
 
@@ -189,7 +212,7 @@ Le moteur, les bots et l’apprentissage sont maintenus depuis le 20 septembre d
 
 - **Habillage du 10 septembre, validé par Nicolas sur `codex/plateau-cadres-factions`** : terrain herbeux et terre battue, encadrement de table de campagne, zones lisibles et cadres de faction permanents. Le terrain est uniquement décoratif : aucune case bloquée, aucun couvert, aucun changement de mouvement. Ce lot accompagne le remplacement des trois illustrations gobelines. Les lignes d’engagement sont également rétablies dès le premier affichage après reconnexion.
 
-- Un seul fonctionnement de partie : préparation commune puis plateau manuel, identifié par `2026-09-18-manual-1` pour les nouvelles parties. Les anciennes phases, actions automatiques, schémas et écrans ont été supprimés à la demande de Nicolas le 8 septembre. Aucun mode de compatibilité n’est maintenu.
+- Un seul fonctionnement de partie : préparation commune puis plateau manuel, identifié par `2026-09-21-manual-1` pour les nouvelles parties. Les anciennes phases, actions automatiques, schémas et écrans ont été supprimés à la demande de Nicolas le 8 septembre. Aucun mode de compatibilité n’est maintenu.
 - La [référence précédente](archive/regles-actions-2026-09-06.md) est conservée uniquement comme historique documentaire pour comparer les règles ; elle ne décrit plus un moteur disponible.
 - Les cartes et ordres d’une partie sont copiés depuis le catalogue lors de sa préparation ; leurs profils restent stables pendant cette partie.
 - Le 10 septembre 2026, les fonctions et le catalogue ont été appliqués à Convex dev, puis à la production `tough-gecko-249` après publication de l’interface sur Vercel : 3 cartes créées, 17 mises à jour, aucune archivée en production. Les 20 profils et les illustrations fournies sont publiés. L’application est idempotente. Les parties préparées conservent leurs cartes figées et les batailles commencées leurs ordres.

@@ -1,0 +1,109 @@
+{
+  "mode": "image_gen intégré (le sélecteur de version du modèle n’est pas exposé)",
+  "source": "PAFF 2026 (4).pdf, p. 8 et consigne de Nicolas du 21 septembre 2026",
+  "images": [
+    {
+      "slug": "longues-lames",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Longues Lames: a disciplined group of Celtic human warriors advancing with very long two-handed swords, sharp blades prominent. Blue tartan, modest chainmail and leather, blue woad tattoos. Forest battlefield, noble fierce resolve. Multiple soldiers visible, one foreground warrior.",
+      "asset": "public/cards/gaeli/gaeli-longues-lames.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-0546d5d6-9564-41a0-9f94-f74986dab759.png"
+    },
+    {
+      "slug": "archers-longs-gaeliens",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Archers longs Gaeliens: a band of Celtic human longbow archers aiming towering wooden longbows into the distance, blue tartan, leather bracers and blue tattoos. Multiple archers, clear bows, drawn arrows, misty forest battlefield.",
+      "asset": "public/cards/gaeli/gaeli-archers-longs-gaeliens.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-514a7f9a-271d-4784-9f6f-6abce671799e.png"
+    },
+    {
+      "slug": "gardiens-des-cen",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Gardiens des Cen': Celtic musicians, bagpipe players and a companion playing a traditional drum, in traditional blue tartan clothing, striding forward on the battlefield. Bagpipes clearly visible and plausible, blue luminous ancestral energy flowing around them as they inspire the army. The musicians are the subjects, not armed swordsmen.",
+      "asset": "public/cards/gaeli/gaeli-gardiens-des-cen.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-374b6df0-3cf1-4f4f-a948-17b7f660f993.png"
+    },
+    {
+      "slug": "druides-2026",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Druides: several Celtic druids acting together, three to five adult druids gathered in a collective healing ritual, ancient oak staves, weathered robes, druidic talismans, hands channeling the SAME luminous blue healing energy. Clearly a coordinated group, no solitary wizard. Misty oak grove on battlefield, Celtic markings, gentle bright blue magic.",
+      "asset": "public/cards/gaeli/gaeli-druides-2026.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-2784b9cf-1b16-4e4b-9b4f-11521104adae.png"
+    },
+    {
+      "slug": "eclaireurs-des-vlands",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Eclaireurs des Vlands: a group of light Celtic cavalry scouts riding lean horses through a woodland battlefield. Practical light leather armor and blue tartan cloaks, spears, blue tattoos. Agile movement, mounted scouts unmistakable, one main rider and companions behind. No heavy knight plate armor.",
+      "asset": "public/cards/gaeli/gaeli-eclaireurs-des-vlands.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-03ec24b4-1227-4251-bc7b-07e9b5c1d5b0.png"
+    },
+    {
+      "slug": "servlanders",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Servlanders: several powerful solidly built Celtic warriors, bare chests with elaborate luminous BLUE Celtic knot tattoos. They wear blue tartan and leather at their waists, carry swords or axes. Their protection is clearly magical and druidic: translucent subtle azure wards and energy tracing the tattoos, NOT full armor. Resolute living human warriors, forest battlefield, no excessive neon.",
+      "asset": "public/cards/gaeli/gaeli-servlanders.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-eceacafd-e698-4c7d-905a-8323c3650297.png"
+    },
+    {
+      "slug": "grand-gardien",
+      "prompt": "Use case: stylized-concept. Asset type: square 1:1 (1024 × 1024) fantasy strategy card illustration for PAFF, full bleed artwork only. Style: richly detailed dark fantasy painting with realistic anatomy, worn leather, woven tartan cloth, ancient oak woodland, mist and Celtic standing stones. Gaeli faction is Celtic and druidic; BLUE is the dominant magical energy, blue tattoos and blue cloth accents. Cinematic, painterly, restrained earthly colors surrounding luminous azure accents. Centered readable silhouettes for a small card; main subjects in central 80%, square composition, equal width and height, no text, no typography, no border, no card UI, no watermark. Grand Gardien: a colossal magnificent magical stag charging through a misty Celtic forest battlefield. Enormous branching antlers, glowing azure eyes, luminous BLUE druidic knotwork across its body, a wake of blue magical energy. Stag anatomy, four legs, strong sense of size from nearby standing stones and ancient oak trees. This is a majestic giant animal guardian, no rider, no humanoid form. Epic low camera angle, antlers fully contained within frame.",
+      "asset": "public/cards/gaeli/gaeli-grand-gardien.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-ba43a61e-b863-4614-8d9e-13c820777377.png"
+    },
+    {
+      "slug": "combattants-des-vlands-2026",
+      "prompt": "Recompose this existing PAFF Gaeli illustration into a SQUARE 1:1 image (1024 x 1024, equal width and height), extending the scene horizontally as necessary. Preserve the original characters, equipment, dark realistic painterly fantasy style, Celtic blue clothing/markings and blue druidic energy. Keep the important figures fully readable, with coherent anatomy. Preserve the subject and mood. Full bleed square art without text, borders, lettering or watermark. Do not merely crop away heads or main weapons. The source image is the edit target.",
+      "reference": "public/cards/gaeli/gaeli-combattants-des-vlands.webp",
+      "asset": "public/cards/gaeli/gaeli-combattants-des-vlands-2026.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-76e29a5f-be0e-441b-92be-2676ce4365de.png"
+    },
+    {
+      "slug": "chefs-de-clan-de-gaeli-2026",
+      "prompt": "Recompose this existing PAFF Gaeli illustration into a SQUARE 1:1 image (1024 x 1024, equal width and height), extending the scene horizontally as necessary. Preserve the original characters, equipment, dark realistic painterly fantasy style, Celtic blue clothing/markings and blue druidic energy. Keep the important figures fully readable, with coherent anatomy. Preserve the subject and mood. Full bleed square art without text, borders, lettering or watermark. Do not merely crop away heads or main weapons. The source image is the edit target.",
+      "reference": "public/cards/gaeli/gaeli-chefs-de-clan-de-gaeli.webp",
+      "asset": "public/cards/gaeli/gaeli-chefs-de-clan-de-gaeli-2026.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-b1fb71ff-4b6d-488d-a8b1-a3e0abdf6791.png"
+    },
+    {
+      "slug": "esprits-des-bois-2026",
+      "prompt": "Recompose this existing PAFF Gaeli illustration into a SQUARE 1:1 image (1024 x 1024, equal width and height), extending the scene horizontally as necessary. Preserve the original characters, equipment, dark realistic painterly fantasy style, Celtic blue clothing/markings and blue druidic energy. Keep the important figures fully readable, with coherent anatomy. Preserve the subject and mood. Full bleed square art without text, borders, lettering or watermark. Do not merely crop away heads or main weapons. The source image is the edit target.",
+      "reference": "public/cards/gaeli/gaeli-esprits-des-bois.webp",
+      "asset": "public/cards/gaeli/gaeli-esprits-des-bois-2026.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "generatedSource": "exec-8685f568-04d2-43a7-96d6-01d1dce15eb0.png"
+    }
+  ]
+}

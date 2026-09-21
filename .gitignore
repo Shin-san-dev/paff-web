@@ -26,3 +26,4 @@ analysis/
 *.njsproj
 *.sln
 *.sw?
+.vercel/

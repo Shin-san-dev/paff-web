@@ -119,11 +119,11 @@ describe('lobby', () => {
 })
 
 describe('synchronized preparation screens', () => {
-  it('explains Blop’s reserve-only rule and prevents selecting him for initial deployment', () => {
-    const blop = catalogue2026.find((unit) => unit.name === 'Blop, le Meuteur')!
+  it.each(['Blop, le Meuteur', 'Grand Gardien'])('explains the reserve-only rule for %s and prevents initial selection', (name) => {
+    const blop = catalogue2026.find((unit) => unit.name === name)!
     room({ ...deployment, players: [{ ...deployment.players[0], cards: [{ ...card, ...blop, faction: card.faction, quantity: 1, selectedQuantity: 0, deploymentQuantity: 0 }] }, deployment.players[1]] })
-    expect(screen.getByText('Commence en réserve · Meuteur !')).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Ajouter Blop, le Meuteur' })).toBeDisabled()
+    expect(screen.getByText(`Commence en réserve · ${blop.profile.ability!.name}`)).toBeVisible()
+    expect(screen.getByRole('button', { name: `Ajouter ${name}` })).toBeDisabled()
     expect(screen.getByRole('spinbutton')).toHaveAttribute('max', '0')
     expect(screen.getByRole('button', { name: 'Valider mes unités' })).toBeEnabled()
   })

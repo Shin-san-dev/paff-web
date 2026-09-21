@@ -1,8 +1,9 @@
 import type { UnitProfile, UnitType } from './unitProfile'
 import { unitAbilities, type UnitAbility } from './unitAbilities'
 
-export const CATALOGUE_VERSION = '2026-09-18-arbitrages-2'
-type Unit = { stableId: string; faction: 'gobelins' | 'sephosi'; name: string; cost: number; imagePath: string; profile: UnitProfile }
+export const CATALOGUE_VERSION = '2026-09-21-gaeli-1'
+export const catalogueFactions = { gobelins: 'Gobelins', sephosi: 'Sephosi', gaeli: 'Gaeli' } as const
+type Unit = { stableId: string; faction: keyof typeof catalogueFactions; name: string; cost: number; imagePath: string; profile: UnitProfile }
 
 function unit(faction: Unit['faction'], slug: string, name: string, cost: number, type: UnitType, regiment: number, dice: number, kind: UnitProfile['offense']['kind'], score: number | null, dc: number, dt: number, ability?: UnitAbility, art?: string): Unit {
   return { stableId: `${faction}-${slug}`, faction, name, cost, imagePath: art ? `/cards/${faction}/${faction}-${art}.webp` : '/cards/unit-placeholder.svg', profile: {
@@ -36,4 +37,15 @@ export const catalogue2026: Unit[] = [
   unit('sephosi', 'aides-de-camp-sephosiens', 'Porte-ordres Sephosiens', 2, 'elite', 1, 0, 'none', null, 1, 1, 'strategicSupport', 'aides-de-camp-sephosiens'),
   unit('sephosi', 'marechal-vallardi', 'Maréchal Vallardi', 2, 'unique', 1, 0, 'none', null, 1, 1, 'strategist'),
   unit('sephosi', 'regiment-de-la-salamandre', 'Régiment de la Salamandre', 4, 'unique', 3, 3, 'melee', 4, 4, 4, undefined, 'regiment-de-la-salamandre'),
+  // PAFF 2026 (4).pdf received 2026-09-21, pp. 8–9. Preserve four historical Gaeli IDs.
+  unit('gaeli', 'combattants-des-vlands', 'Combattants des Vlands', 2, 'troop', 2, 2, 'melee', 3, 2, 2, undefined, 'combattants-des-vlands-2026'),
+  unit('gaeli', 'longues-lames', 'Longues Lames', 3, 'troop', 3, 4, 'melee', 4, 3, 2, undefined, 'longues-lames'),
+  unit('gaeli', 'archers-longs-gaeliens', 'Archers longs Gaeliens', 2, 'ranged', 2, 3, 'ranged', 2, 1, 1, undefined, 'archers-longs-gaeliens'),
+  unit('gaeli', 'gardiens-des-cen', "Gardiens des Cen'", 1, 'ranged', 1, 0, 'none', null, 1, 1, 'ancestralSong', 'gardiens-des-cen'),
+  unit('gaeli', 'druide', 'Druides', 1, 'ranged', 1, 0, 'none', null, 1, 1, 'branTeha', 'druides-2026'),
+  unit('gaeli', 'eclaireurs-des-vlands', 'Eclaireurs des Vlands', 2, 'cavalry', 2, 2, 'melee', 2, 2, 1, undefined, 'eclaireurs-des-vlands'),
+  unit('gaeli', 'servlanders', 'Servlanders', 4, 'elite', 3, 3, 'melee', 4, 3, 4, undefined, 'servlanders'),
+  unit('gaeli', 'esprits-des-bois', 'Esprits des Bois', 3, 'elite', 3, 3, 'melee', 3, 3, 3, 'ethereal', 'esprits-des-bois-2026'),
+  unit('gaeli', 'chefs-de-clan-de-gaeli', 'Chefs de Clan de la Gaeli', 3, 'unique', 2, 2, 'melee', 3, 3, 2, 'forGaeli', 'chefs-de-clan-de-gaeli-2026'),
+  unit('gaeli', 'grand-gardien', 'Grand Gardien', 4, 'unique', 2, 2, 'melee', 5, 4, 2, 'guardianCharge', 'grand-gardien'),
 ]

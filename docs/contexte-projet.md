@@ -6,7 +6,7 @@ Ce document rassemble les repères durables à relire à chaque nouvelle tâche.
 
 PAFF est un jeu de cartes et de stratégie privé développé pour un groupe d’amis. L’interface est en français, avec des tons sombres, du bronze, du parchemin et des illustrations fantasy. Conserver un ton simple et personnel ; les textes exacts fournis par l’utilisateur priment sur la reformulation.
 
-La première version jouable date du **11 septembre 2026** et comprend **Gobelins** et **Sephosi** (clé technique `sephosi`). Le catalogue comporte aussi d’autres factions ; le journal raconte l’histoire du projet et ne doit pas être déduit automatiquement de l’état courant du catalogue. Les noms et profils d’unités sont à vérifier dans `shared/catalogue2026.ts` et les données du catalogue.
+La première version jouable date du **11 septembre 2026** et comprend **Gobelins** et **Sephosi** (clé technique `sephosi`). Le lot du 21 septembre ajoute les profils définis de **Gaeli** et masque les **Orcs** ; le journal raconte l’histoire du projet et ne doit pas être déduit automatiquement de l’état courant du catalogue. Les noms et profils d’unités sont à vérifier dans `shared/catalogue2026.ts` et les données du catalogue.
 
 Les cinq membres initiaux sont **Nicolas, Adrien, Bru, Pierre et Quentin**. Les profils sont communautaires : pas de statistiques de parties, victoires/défaites, classement, comparaison, Elo ni progression compétitive. Ne pas confondre cette contrainte avec les compteurs déjà nécessaires au déroulement d’une partie.
 
@@ -40,11 +40,24 @@ Les cinq membres initiaux sont **Nicolas, Adrien, Bru, Pierre et Quentin**. Les 
 
 **Publication réalisée le 20 septembre :** commit fonctionnel `e3ef6e395f24a52edfa58946d818b5e8cd868119` poussé sur `main`, déploiement Vercel terminé, fonctions déployées sur **tough-gecko-249** puis `catalogue2026:apply --prod` : **1 création, 19 mises à jour, 1 archivage**. Catalogue public vérifié : Djil et son image propre, Gros tarrés à 1 point avec la nouvelle image, Skrans à 2, dix Gobelins actifs. Descriptions de Recrutement, Pause-déjeuner, La gross Invokation, Tir concentré et Fureur divine relues sur le site publié. Site : 257 tests, lint, types Convex et build réussis. Nicolas demande ensuite de reprendre le simulateur plus tard ; sa copie locale est préservée, sans entraînement ni push.
 
-Référence courante : `paff-2026-09-18-arbitrages-2`, catalogue `2026-09-18-arbitrages-2`, nouvelles batailles `2026-09-18-manual-2`. Voir les [règles implémentées](regles-implementees.md), le [diff du 18 septembre](differences-regles-2026-09-18.md) et les [arbitrages](equilibrage/arbitrages-2026-09-18.md). Skrans à 2 points, Gros tarrés à 1, Djil créé avec sa propre identité, Bande du Sef archivée sans conversion des decks. Les anciennes parties conservent leurs profils et ordres figés.
+Référence de cette publication : `paff-2026-09-18-arbitrages-2`, catalogue `2026-09-18-arbitrages-2`, nouvelles batailles `2026-09-18-manual-2`. Voir les [règles implémentées](regles-implementees.md), le [diff du 18 septembre](differences-regles-2026-09-18.md) et les [arbitrages](equilibrage/arbitrages-2026-09-18.md). Skrans à 2 points, Gros tarrés à 1, Djil créé avec sa propre identité, Bande du Sef archivée sans conversion des decks. Les anciennes parties conservent leurs profils et ordres figés.
 
 Le stock reçoit +3 points de recrutement aux tours 2/4/5, conservés ; les trois sélections se débloquent aux tours 2/3/4. Tir concentré exige deux tireurs par zone ; Djil est Troll sans Trollitude, exclu des sacrifices et de La gross Invokation. Seuls les dés du profil doublent ; Pluie vise les ennemis. Ligne Verte commence dans la zone suivante, ignore celle du Danzereu, et ses dégâts collatéraux ne le tuent pas. Les descriptions sont actualisées ; le plateau reste manuel. Les relances du tableau ne sont plus proposées dans l’aide, ni le surnombre dans les règles.
 
 Nicolas fournit le 20 septembre `Image Codex 20 sept. 2026, 12_17_35.png` pour Djil : gobelin dirigeant des Trolls. Conversion WebP sans recadrage sous `public/cards/gobelins/gobelins-djil-meneur-de-trolls.webp`, distincte des Trolls ordinaires. Les Gros tarrés reprennent l’image fournie le 16 septembre au chemin existant.
+
+## Gaeli et retrait des Orcs — 21 septembre 2026
+
+Source : **PAFF 2026 (4).pdf** transmis par Nicolas, p. 7 (ordres), p. 8 (unités), p. 9 (capacités). Catalogue `2026-09-21-gaeli-1`, nouvelles batailles `2026-09-21-manual-1`. Les arbitrages du 18 septembre concernant les Gobelins/Sephosi restent prioritaires sur les formulations anciennes encore présentes dans le PDF. [Détail du lot](differences-regles-2026-09-21.md).
+
+- Trois factions actives de dix unités chacune : Gobelins, Sephosi, Gaeli. Quatre ordres et cinq capacités Gaeli ajoutés. Les Druides et les Gardiens des Cen' ont zéro dé et aucune attaque malgré leur type Tir.
+- Le Grand Gardien commence obligatoirement en réserve, avec contrôle à chaque étape de préparation. Les conditions de sa charge et les autres effets Gaeli sont consultables et appliqués manuellement, comme les autres effets du jeu.
+- Quatre identités Gaeli conservées : Combattants des Vlands, Druides, Esprits des Bois, Chefs de Clan de la Gaeli. Six nouvelles unités ; Sorl Caleit et les anciennes cartes Action Gaeli archivés. Les anciennes références Gaeli restent retirables dans les decks.
+- **Orcs : masqués, non sélectionnables, toutes leurs cartes supprimées des decks**, même celles déjà archivées. Les decks vidés conservent leur nom/propriétaire et peuvent choisir une nouvelle faction. Les cartes source sont archivées et les copies des parties existantes restent intactes. Un import historique ne doit pas réactiver les Orcs.
+- **Illustrations obligatoirement carrées 1:1**, précision de Nicolas dans cette conversation. Direction Gaeli : celtique, druidique, énergie et tatouages bleus. Sept nouvelles illustrations et trois recompositions carrées des visuels existants, en WebP sans recadrage supplémentaire. Les descriptions artistiques du PDF servent seulement aux images. Les prompts et chemins sont conservés dans [le manifeste](illustrations-gaeli-2026-09-21.json). Le générateur intégré n’expose pas de sélecteur de version du modèle.
+- Nicolas autorise explicitement, pour cette conversation, le push GitHub et le déploiement/vérification d’une **preview accessible à Adrien**, sans nouvelle confirmation. La preview cible le développement ; cette demande ne publie pas le lot sur `main` ni les données de production.
+
+Développement **grateful-warthog-543** synchronisé et catalogue appliqué : **6 créations, 24 mises à jour, 12 archivages, 1 faction désactivée, 13 entrées Orcs retirées de 2 decks**. Deuxième application : tous les compteurs à zéro. Catalogue public local : trois factions et dix Gaeli, illustrations carrées et ordres consultables. Aucun changement de données en production.
 
 ## Simulateur indépendant — décision du 20 septembre
 

@@ -1,8 +1,8 @@
 # Profils historiques et estimations de compatibilité
 
-La référence courante est [Règles implémentées](../../docs/regles-implementees.md), section 1, avec les 20 profils Gobelins/Sephosi du PDF reçu le 10 septembre. Les estimations ci-dessous concernent les anciens profils, notamment Orcs/Gaeli, et les anciennes parties. Vallardi et les Porte-ordres possèdent explicitement zéro dé et aucun mode offensif (`none`, score `null`), affichés « — » sur les cartes.
+La référence courante est [Règles implémentées](../../docs/regles-implementees.md), section 1, avec 30 profils définis Gobelins/Sephosi/Gaeli, dont Gaeli révisée le 21 septembre. Les estimations ci-dessous concernent uniquement les cartes et parties historiques. Les Orcs sont archivés et retirés des decks ; les anciennes cartes Gaeli ont été remplacées ou archivées. Vallardi et les Porte-ordres possèdent explicitement zéro dé et aucun mode offensif (`none`, score `null`), affichés « — » sur les cartes.
 
-Structure confirmée par Nicolas : nom, coût de recrutement, type, R (points de Régiment), nombre de dés, un seul score offensif A ou T, DA, DT et une capacité avec intitulé court et définition. Le nombre de dés est indépendant de la valeur offensive. Les nouvelles listes Gobelins/Sephosi remplacent leurs anciennes cartes publiées ; les cartes Action des autres factions sont conservées.
+Structure confirmée par Nicolas : nom, coût de recrutement, type, R (points de Régiment), nombre de dés, un seul score offensif A ou T, DA, DT et une capacité avec intitulé court et définition. Le nombre de dés est indépendant de la valeur offensive. Les listes actuelles Gobelins/Sephosi/Gaeli remplacent leurs anciennes cartes publiées ; aucune carte Action ne reste dans le catalogue actif.
 
 Les valeurs initiales sont des estimations autorisées, identifiées par `profile.source = "estimated"`. Un profil corrigé utilise `"defined"`. Les champs historiques restent disponibles pour assurer la compatibilité des decks et des parties.
 
