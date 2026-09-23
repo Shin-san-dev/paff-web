@@ -11,6 +11,11 @@ const appearances: Record<string, FactionAppearance> = {
     description: 'Pas de rangs. Pas de calme. Des gobelins.',
     image: '/cards/gobelins/gobelins-troupe-de-gobelins.webp',
   },
+  gaeli: {
+    motto: 'Clans · Esprits · Puissance druidique',
+    description: 'Les clans se lèvent. La forêt répond.',
+    image: '/cards/gaeli/gaeli-grand-gardien.webp',
+  },
 }
 
 export function factionAppearance(theme?: string): FactionAppearance {

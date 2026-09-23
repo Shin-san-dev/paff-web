@@ -59,6 +59,14 @@ Source : **PAFF 2026 (4).pdf** transmis par Nicolas, p. 7 (ordres), p. 8 (unité
 
 Développement **grateful-warthog-543** synchronisé et catalogue appliqué : **6 créations, 24 mises à jour, 12 archivages, 1 faction désactivée, 13 entrées Orcs retirées de 2 decks**. Deuxième application : tous les compteurs à zéro. Catalogue public local : trois factions et dix Gaeli, illustrations carrées et ordres consultables. Aucun changement de données en production.
 
+Le 22 septembre, Nicolas remplace les Archers longs Gaeliens par `Image Codex 22 sept. 2026, 10_49_29.png`, les Longues Lames par `Image Codex 22 sept. 2026, 10_54_23.png` et les Druides par `Image Codex 22 sept. 2026, 11_03_23.png`. Conversion en WebP sans recadrage aux chemins existants, carré 1:1 conservé.
+
+Le 23 septembre, les Esprits des Bois reprennent `Image Codex 23 sept. 2026, 05_01_43.png`, les Servlanders la dernière version fournie `Image Codex 23 sept. 2026, 09_24_47.png` (volutes bleues), et le Grand Gardien `Image Codex 23 sept. 2026, 08_52_21.png` (grand cerf). Même conversion WebP sans recadrage ni redimensionnement, en carré 1:1.
+
+La bannière Gaeli reçoit une accroche dédiée : « Les clans se lèvent. La forêt répond. », la devise « Clans · Esprits · Puissance druidique » et l’illustration du Grand Gardien.
+
+Le journal annonce « La Gaeli rejoint PAFF » à la date du **24 septembre 2026**, choisie explicitement par Nicolas, qui confirme l’orthographe « Gaeli ». Après la revue locale, Nicolas autorise le 23 septembre la fusion de ce lot sur `main`, la fermeture de la preview et sa publication en production, y compris la mise à jour de Convex.
+
 ## Simulateur indépendant — décision du 20 septembre
 
 Nicolas autorise la publication des règles/unités/illustrations du site et demande que les expérimentations se poursuivent dans **`/Users/nicolasca/Documents/workspace/paff-simulator`**, dépôt local sans GitHub. Ne plus développer les bots ici. Extraction des sources, modèles, dashboard, résultats et caches vérifiée ; historique et état non commité sauvegardés. [Organisation et reprise](separation-simulateur.md).
