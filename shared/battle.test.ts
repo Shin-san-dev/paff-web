@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { initialBattle, orderDefinitions } from './battle'
 
-describe('orders from the September 15 PDF, pages 2 and 6', () => {
+describe('orders from the September 18 PDF and consolidated rulings', () => {
   it('keeps four common orders and describes the progressive recruitment allowance', () => {
     expect(orderDefinitions.filter((order) => order.faction === 'common').map((order) => order.name)).toEqual(['Mouvement', 'Tir', 'Tir Artillerie', 'Recrutement'])
     const battle = initialBattle([{ seat: 0, faction: 'gobelins' }, { seat: 1, faction: 'sephosi' }])
     const recruitment = battle.catalog.find((order) => order.id === 'recruitment')!
     expect(battle.manual.stocks.filter((stock) => stock.orderId === 'recruitment')).toEqual([{ seat: 0, orderId: 'recruitment', remaining: 3 }, { seat: 1, orderId: 'recruitment', remaining: 3 }])
-    for (const rule of ['première est accessible à partir du tour 2', 'deuxième à partir du tour 3', 'troisième à partir du tour 4', '6 ou 9 points', 'ne peuvent pas tirer']) expect(recruitment.description).toContain(rule)
+    for (const rule of ['première est accessible à partir du tour 2', 'deuxième à partir du tour 3', 'troisième à partir du tour 4', 'aux tours 2, 4 et 5', 'sans ennemi non engagé', 'ne peuvent pas tirer']) expect(recruitment.description).toContain(rule)
+    expect(recruitment.description).not.toContain('6 ou 9 points')
   })
 
   it('gives each faction its four finalized orders and the 4/2/1 limited stocks', () => {
@@ -42,8 +43,13 @@ describe('orders from the September 15 PDF, pages 2 and 6', () => {
 
   it('does not assign Goblin or Sephosi orders to the other factions', () => {
     const battle = initialBattle([{ seat: 0, faction: 'orcs' }, { seat: 1, faction: 'gaeli' }])
-    expect(battle.catalog).toHaveLength(4)
-    expect(battle.catalog.every((order) => order.faction === 'common')).toBe(true)
+    expect(battle.catalog).toHaveLength(8)
+    expect(battle.catalog.every((order) => order.faction === 'common' || order.faction === 'gaeli')).toBe(true)
+    const gaeli = battle.catalog.filter((order) => order.faction === 'gaeli')
+    expect(gaeli.map((order) => order.name)).toEqual(['Tir longue portée', 'Course héroique', 'Appel des vents', 'Convocation des Esprits'])
+    expect(gaeli.map((order) => order.seats)).toEqual([[1], [1], [1], [1]])
+    expect(gaeli.map((order) => order.limit)).toEqual([undefined, 4, 2, 1])
+    expect(battle.manual.stocks.filter((stock) => stock.seat === 1).map((stock) => stock.remaining)).toEqual([3, 4, 2, 1])
     expect(new Set(orderDefinitions.map((order) => order.id)).size).toBe(orderDefinitions.length)
   })
 })

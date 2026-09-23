@@ -52,7 +52,6 @@ export function SpectatorBattle({ game }: { game: Game }) {
           <p className="manual-note">Défenseur : <strong>{target ? unitName(target) : 'En attente du choix des joueurs'}</strong></p>
           {target && attackProfile && <>
             {attackProfile.offense.kind === 'none' ? <p className="manual-note">Cette unité ne possède pas d’attaque.</p> : <div className="manual-hit"><div><span>{ranged ? 'Tir' : 'Corps à corps'}</span><strong>{attackProfile.dice}<small> D6</small></strong></div><div><span>{attackProfile.offense.score ?? '—'}{ranged ? 'T' : 'C'} contre {defense} {ranged ? 'DT' : 'DC'}</span><strong>{rule ? `${rule.threshold}+` : '—'}</strong></div></div>}
-            {rule && rule.reroll !== 'none' && <p className="manual-reroll">{rule.reroll === 'fail' ? 'Relance possible des échecs, une fois.' : 'Chaque réussite doit être confirmée par une relance.'}</p>}
             <p className="manual-note">Profil de base. Les joueurs gèrent les bonus, les jets et les pertes de R.</p>
           </>}
         </> : <p className="manual-note">Aucun combat sélectionné par les joueurs.</p>}

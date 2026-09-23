@@ -137,7 +137,7 @@ export const importCards = internalMutation({
           ...(normalizeOptionalText(row.sourceNote)
             ? { sourceNote: normalizeText(row.sourceNote) }
             : {}),
-          status: 'published' as const,
+          status: factionConfig.stableId === 'orcs' ? 'archived' as const : 'published' as const,
         }
 
         await upsertCard(ctx, card, result)
@@ -197,7 +197,7 @@ async function upsertFaction(
     entityId,
     name: faction.name,
     themeKey: faction.themeKey,
-    status: 'published' as const,
+    status: faction.stableId === 'orcs' ? 'archived' as const : 'published' as const,
   }
   const existing = await ctx.db
     .query('factions')

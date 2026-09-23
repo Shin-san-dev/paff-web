@@ -42,7 +42,7 @@ export const isRear = (cell: number, seat: number) => rowOf(cell) === (seat === 
 export const isBase = (cell: number, seat: number) => rowOf(cell) === (seat === 0 ? 4 : 1)
 export const isHome = (cell: number, seat: number) => isRear(cell, seat) || isBase(cell, seat)
 export const isCenterBase = (cell: number, seat: number) => isBase(cell, seat) && colOf(cell) >= 2 && colOf(cell) <= 6
-export const canInitiallyDeploy = (profile: UnitProfile | undefined) => !hasUnitAbility(profile, 'packmaster')
+export const canInitiallyDeploy = (profile: UnitProfile | undefined) => !hasUnitAbility(profile, 'packmaster') && !hasUnitAbility(profile, 'guardianCharge')
 export function canDeployUnit(cell: number, seat: number, profile: UnitProfile, setup: GameSetup, artilleryOnly = false, artilleryRemaining = 0) {
   if (!canInitiallyDeploy(profile)) return false
   if (!isCell(cell) || !isHome(cell, seat) || setup.units.some((unit) => unit.cell === cell)) return false

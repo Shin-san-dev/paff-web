@@ -12,6 +12,12 @@ export const journalEntries: readonly JournalEntry[] = [
     title: 'Première version jouable',
     description: 'Les premières cartes prennent vie autour de la table. PAFF fait ses premiers pas avec une version jouable et deux factions disponibles : Gobelins et Sephosi. Oh yeah.',
   },
+  {
+    id: 'ajout-gaeli',
+    date: '2026-09-24',
+    title: 'La Gaeli rejoint PAFF',
+    description: 'La Gaeli rejoint les factions de PAFF, avec dix unités, de nouveaux ordres et des capacités druidiques.',
+  },
 ]
 
 export function newestEntriesFirst(entries: readonly JournalEntry[]) {

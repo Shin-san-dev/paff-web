@@ -5,29 +5,67 @@ import { catalogue2026, CATALOGUE_VERSION } from '../shared/catalogue2026'
 
 function setup() {
   const h = createGameHarness()
-  h.tables.factions.push({ ...h.tables.factions[0], _id: 'sephosi', stableId: 'sephosi', name: 'Céphosi' }, { ...h.tables.factions[0], _id: 'orcs', stableId: 'orcs' })
+  h.tables.factions.push({ ...h.tables.factions[0], _id: 'sephosi', stableId: 'sephosi', name: 'Céphosi' }, { ...h.tables.factions[0], _id: 'orcs', stableId: 'orcs' }, { ...h.tables.factions[0], _id: 'gaeli', stableId: 'gaeli', name: 'Gaeli' })
   h.tables.cards.push({ ...h.tables.cards[0], _id: 'troll', stableId: 'gobelins-meneurs-de-troll', name: 'Meneurs de Troll', dataVersion: 'paff-v100', profile: { unitType: 'elite', regiment: 3, dice: 2, offense: { kind: 'melee', score: 6 }, defenseMelee: 3, defenseRanged: 2, source: 'defined' } }, { ...h.tables.cards[0], _id: 'orc', stableId: 'orc', factionId: 'orcs' })
   h.tables.deckCards.push({ _id: 'troll-deck', deckId: 'deck-1', cardId: 'troll', quantity: 3 })
   const apply = () => h.invoke('catalogue2026', 'apply', 0)
   return { ...h, apply }
 }
 
-describe('September 15 PDF roster', () => {
+describe('September 21 roster with preserved September 18 rulings', () => {
+  it('removes all Orc deck entries, hides the faction, and leaves empty decks reusable', async () => {
+    const h = setup()
+    h.tables.decks.push({ _id: 'orc-deck', ownerUserId: 'user-1', name: 'Ma vieille armée', factionId: 'orcs' }, { _id: 'empty-orc-deck', ownerUserId: 'user-2', name: 'Vide', factionId: 'orcs' })
+    h.tables.cards.push({ ...h.tables.cards[0], _id: 'old-orc', stableId: 'old-orc', factionId: 'orcs', status: 'archived' })
+    h.tables.deckCards.push(
+      { _id: 'orc-only', deckId: 'orc-deck', cardId: 'orc', quantity: 3 },
+      { _id: 'orc-mixed', deckId: 'deck-2', cardId: 'orc', quantity: 2 },
+      { _id: 'orc-retired', deckId: 'deck-1', cardId: 'old-orc', quantity: 1 },
+    )
+    const others = structuredClone(h.tables.deckCards.filter((entry) => !['orc', 'old-orc'].includes(String(entry.cardId))))
+    const result = await h.apply()
+    expect(result).toMatchObject({ disabledFactions: 1, removedOrcEntries: 3, clearedOrcDecks: 2 })
+    expect(h.tables.deckCards).toEqual(others)
+    expect(h.tables.decks.find((deck) => deck._id === 'orc-deck')).toMatchObject({ ownerUserId: 'user-1', name: 'Ma vieille armée', factionId: undefined })
+    expect(await h.invoke('catalogue', 'listCards', 0, { factionStableId: 'orcs' })).toEqual([])
+    expect((await h.invoke('catalogue', 'listFactions', 0) as { stableId: string }[]).map((faction) => faction.stableId).sort()).toEqual(['gaeli', 'gobelins', 'sephosi'])
+    await expect(h.invoke('decks', 'create', 1, { name: 'Orcs', factionStableId: 'orcs' })).rejects.toMatchObject({ data: { code: 'FACTION_NOT_AVAILABLE' } })
+    await expect(h.invoke('decks', 'setCardQuantity', 1, { deckId: 'orc-deck', cardStableId: 'orc', quantity: 1 })).rejects.toMatchObject({ data: { code: 'CARD_NOT_AVAILABLE' } })
+    await h.invoke('decks', 'setCardQuantity', 1, { deckId: 'orc-deck', cardStableId: 'gaeli-combattants-des-vlands', quantity: 1 })
+    expect(h.tables.decks.find((deck) => deck._id === 'orc-deck')?.factionId).toBe('gaeli')
+    const gameId = await h.readyFor('deck_selection')
+    await h.run('selectDeck', 1, { gameId, deckId: 'orc-deck' })
+    expect(h.tables.gameCards[0]).toMatchObject({ name: 'Combattants des Vlands', cost: 2, profile: { regiment: 2, dice: 2 } })
+  })
+  it('updates historical Gaeli identities and archives Sorl Caleit and old action cards', async () => {
+    const h = setup()
+    for (const slug of ['combattants-des-vlands', 'druide', 'esprits-des-bois', 'chefs-de-clan-de-gaeli', 'sorl-caleit', 'charge-du-gardien', 'appel-des-vents', 'sacrifice-druidique']) {
+      h.tables.cards.push({ ...h.tables.cards[0], _id: slug, stableId: `gaeli-${slug}`, factionId: 'gaeli' })
+      h.tables.deckCards.push({ _id: `entry-${slug}`, deckId: 'deck-1', cardId: slug, quantity: 1 })
+    }
+    const entries = structuredClone(h.tables.deckCards)
+    await h.apply()
+    expect(h.tables.deckCards).toEqual(entries)
+    expect(h.tables.cards.find((card) => card._id === 'druide')).toMatchObject({ name: 'Druides', profile: { dice: 0, offense: { kind: 'none', score: null }, ability: { id: 'bran-teha' } } })
+    expect(h.tables.cards.find((card) => card._id === 'chefs-de-clan-de-gaeli')).toMatchObject({ profile: { unitType: 'unique', regiment: 2, ability: { id: 'for-gaeli' } } })
+    for (const id of ['sorl-caleit', 'charge-du-gardien', 'appel-des-vents', 'sacrifice-druidique']) expect(h.tables.cards.find((card) => card._id === id)?.status).toBe('archived')
+    expect(h.tables.cards.filter((card) => card.factionId === 'gaeli' && card.status === 'published')).toHaveLength(10)
+  })
   it('publishes ten units per faction and preserves existing deck references', async () => {
     const { tables, apply } = setup()
     const entries = structuredClone(tables.deckCards)
-    const orc = structuredClone(tables.cards.find((card) => card._id === 'orc'))
-    expect(await apply()).toEqual({ created: 19, updated: 1, archived: 2 })
+    expect(await apply()).toEqual({ created: 29, updated: 1, archived: 3, disabledFactions: 1, removedOrcEntries: 0, clearedOrcDecks: 0 })
     expect(tables.cards.find((card) => card._id === 'troll')).toMatchObject({ name: 'Trolls', cost: 3, profile: { regiment: 2, dice: 2, defenseRanged: 5 }, dataVersion: CATALOGUE_VERSION, deckLimit: undefined })
     expect(tables.cards.filter((card) => card.factionId === 'faction' && card.status === 'published')).toHaveLength(10)
     expect(tables.cards.filter((card) => card.factionId === 'sephosi' && card.status === 'published')).toHaveLength(10)
     expect(tables.cards.find((card) => card._id === 'unit')?.status).toBe('archived')
     expect(tables.deckCards).toEqual(entries)
-    expect(tables.cards.find((card) => card._id === 'orc')).toEqual(orc)
+    expect(tables.cards.find((card) => card._id === 'orc')?.status).toBe('archived')
+    expect(tables.cards.filter((card) => card.factionId === 'gaeli' && card.status === 'published')).toHaveLength(10)
     // Convex reorders keys when values are stored; comparison must ignore that order.
     for (const card of tables.cards) if (card.profile) card.profile = Object.fromEntries(Object.entries(card.profile as object).reverse())
     const after = structuredClone(tables)
-    expect(await apply()).toEqual({ created: 0, updated: 0, archived: 0 })
+    expect(await apply()).toEqual({ created: 0, updated: 0, archived: 0, disabledFactions: 0, removedOrcEntries: 0, clearedOrcDecks: 0 })
     expect(tables).toEqual(after)
   })
   it('preserves frozen game profiles and offers a repair path for decks containing retired cards', async () => {
@@ -66,8 +104,12 @@ describe('September 15 PDF roster', () => {
     expect(tables.deckCards).toEqual(entries)
   })
   it('replaces WIP values and represents Vallardi and the Porte-ordres without an attack', () => {
-    expect(catalogue2026.find((unit) => unit.name === 'Bande du chef')?.profile).toMatchObject({ regiment: 5, dice: 4, defenseRanged: 2 })
-    expect(catalogue2026.some((unit) => unit.name.includes('Sef'))).toBe(false)
+    expect(catalogue2026.some((unit) => unit.stableId === 'gobelins-bande-du-chef')).toBe(false)
+    const djil = catalogue2026.find((unit) => unit.stableId === 'gobelins-djil-meneur-de-trolls')!
+    expect(djil).toMatchObject({ name: 'Djil, meneur de Trolls', cost: 4, profile: { unitType: 'unique', regiment: 3, dice: 2, offense: { kind: 'melee', score: 4 }, defenseMelee: 5, defenseRanged: 5 } })
+    expect(djil.profile.ability).toBeUndefined()
+    expect(catalogue2026.find((unit) => unit.stableId === 'gobelins-chevaucheurs-de-skrans-gobelins')?.cost).toBe(2)
+    expect(catalogue2026.find((unit) => unit.stableId === 'gobelins-bon-gros-tarre-de-gobelin')?.cost).toBe(1)
     expect(catalogue2026.find((unit) => unit.name === 'Porte-ordres Sephosiens')).toMatchObject({ stableId: 'sephosi-aides-de-camp-sephosiens', profile: { dice: 0, offense: { kind: 'none', score: null }, defenseRanged: 1 } })
     expect(catalogue2026.find((unit) => unit.name === 'Maréchal Vallardi')?.profile).toMatchObject({ dice: 0, offense: { kind: 'none', score: null }, ability: { name: 'Stratège' } })
     expect(catalogue2026.find((unit) => unit.name === 'Bande de Gobelins')?.profile).toMatchObject({ regiment: 2, dice: 2 })
@@ -89,11 +131,29 @@ describe('September 15 PDF roster', () => {
     const entries = structuredClone(tables.deckCards)
     await apply()
     expect(tables.cards.find((card) => card._id === 'aide')).toMatchObject({ name: 'Porte-ordres Sephosiens', profile: { ability: { id: 'strategic-support', description: expect.stringContaining('autre axe') } } })
-    expect(tables.cards.find((card) => card._id === 'mad-goblin')).toMatchObject({ status: 'published', name: 'Gros tarrés de gobelins', cost: 2, profile: { unitType: 'elite', regiment: 1, dice: 1, offense: { score: 5 } } })
+    expect(tables.cards.find((card) => card._id === 'mad-goblin')).toMatchObject({ status: 'published', name: 'Gros tarrés de gobelins', cost: 1, profile: { unitType: 'elite', regiment: 1, dice: 1, offense: { score: 5 } } })
     expect(tables.deckCards).toEqual(entries)
     for (const unit of catalogue2026) if (unit.profile.ability) {
       expect(unit.profile.ability.id).toBeTruthy()
       expect(unit.profile.ability.description).not.toMatch(/en cours de définition|pas encore appliqué/)
     }
+  })
+  it('archives the Bande du Sef without converting decks or frozen units into Djil', async () => {
+    const h = setup()
+    Object.assign(h.tables.cards[0], { stableId: 'gobelins-bande-du-chef', name: 'Bande du chef', cost: 3,
+      profile: { unitType: 'elite', regiment: 5, dice: 4, offense: { kind: 'melee', score: 3 }, defenseMelee: 3, defenseRanged: 2, source: 'defined' } })
+    // Four elites respect the existing deck quota.
+    h.tables.deckCards = h.tables.deckCards.filter((entry) => entry.cardId !== 'troll')
+    for (const entry of h.tables.deckCards) if (entry.cardId === 'unit') entry.quantity = 4
+    await h.readyFor('preparation')
+    const frozen = structuredClone(h.tables.gameCards), entries = structuredClone(h.tables.deckCards)
+    await h.apply()
+    expect(h.tables.cards.find((card) => card._id === 'unit')).toMatchObject({ stableId: 'gobelins-bande-du-chef', name: 'Bande du Sef', status: 'archived', cost: 3 })
+    expect(h.tables.cards.filter((card) => card.stableId === 'gobelins-djil-meneur-de-trolls')).toHaveLength(1)
+    expect(h.tables.gameCards).toEqual(frozen)
+    expect(h.tables.deckCards).toEqual(entries)
+    await expect(h.invoke('decks', 'adjustCardQuantity', 1, { deckId: 'deck-1', cardStableId: 'gobelins-bande-du-chef', delta: 1 })).rejects.toMatchObject({ data: { code: 'CARD_NOT_AVAILABLE' } })
+    await h.invoke('decks', 'setCardQuantity', 1, { deckId: 'deck-1', cardStableId: 'gobelins-bande-du-chef', quantity: 0 })
+    expect(h.tables.deckCards.some((entry) => entry.deckId === 'deck-1' && entry.cardId === 'unit')).toBe(false)
   })
 })
