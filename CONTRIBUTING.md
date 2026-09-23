@@ -1,20 +1,21 @@
 # Contribuer à PAFF
 
-PAFF est un projet privé entre amis. Ce document propose un process minimal pour les contributions par pull request ; il est ouvert à discussion avec Nicolas et n'a pas valeur définitive tant qu'il n'est pas mergé.
+PAFF est un jeu privé entre amis dont le dépôt de code est public. Ce guide explique comment proposer une contribution par pull request. Il ne crée pas, à lui seul, de protection technique contre les push sur `main`.
+
+Le [README](README.md) décrit le projet et sa publication. Les assistants de code, notamment Claude et Codex, doivent aussi lire [AGENTS.md](AGENTS.md) : ses consignes de travail et ses liens vers le contexte du projet font référence.
 
 ## Avant de commencer
 
-- Le dépôt est public mais le jeu est privé : la création de compte est désactivée côté serveur (`convex/auth.ts`), les comptes joueurs sont créés à la main par Nicolas. Contribuer au code ne donne pas accès au jeu.
-- Pas de droits d'écriture sur `nicolasca/paff-web` par défaut : forker le dépôt et travailler depuis son fork.
-- Pour une évolution non triviale (règles, UI, structure), en discuter avec Nicolas avant d'écrire du code, pour éviter un travail qui ne correspond pas à sa direction du projet.
+- La création publique de compte est désactivée côté serveur (`convex/auth.ts`) ; les comptes joueurs sont provisionnés séparément. Contribuer au code ne donne pas accès au jeu.
+- Sans accès en écriture au dépôt, créez un fork. Avec cet accès, travaillez sur une branche dédiée du dépôt.
+- Pour une évolution importante des règles, de l'interface ou de la structure, échangez avec Nicolas sur l'objectif avant d'y consacrer du temps.
 
 ## Process proposé
 
-1. Forker le dépôt, cloner son fork.
-2. Créer une branche dédiée depuis `main`, avec le préfixe `codex/<sujet>` déjà utilisé dans le projet (voir `AGENTS.md`).
-3. Committer avec des messages clairs, en français comme le reste du projet (commits, code, commentaires).
-4. Ouvrir une pull request vers `nicolasca/paff-web:main`, avec une description qui explique le changement et son impact (règles, interface, Convex).
-5. Attendre la revue de Nicolas avant merge. Pas de merge automatique.
+1. Partez d'un `main` à jour et créez une branche au nom descriptif. Le préfixe `codex/<sujet>` est la convention de Codex dans l'espace de travail de Nicolas ; il n'est pas imposé aux autres contributeurs.
+2. Faites un changement ciblé, avec des messages de commit clairs. Gardez les textes visibles dans le jeu en français.
+3. Ouvrez une pull request vers `nicolasca/paff-web:main`. Décrivez le comportement modifié, son impact sur les règles, l'interface ou Convex, les vérifications effectuées et les éventuelles étapes de publication.
+4. Laissez à Nicolas la revue et la décision de fusion. Cette pratique n'est pas une protection de branche GitHub ; elle doit être configurée séparément pour devenir obligatoire.
 
 ## Vérifications avant de proposer une PR
 
@@ -22,7 +23,7 @@ PAFF est un projet privé entre amis. Ce document propose un process minimal pou
 npm run check
 ```
 
-Lint, tests unitaires/fonctionnels et build. Pour toute modification touchant `convex/`, ajouter aussi :
+Cette commande lance le lint, les tests et le build. Pour toute modification touchant `convex/`, ajoutez aussi :
 
 ```sh
 npx tsc --noEmit -p convex/tsconfig.json
@@ -32,9 +33,6 @@ npx tsc --noEmit -p convex/tsconfig.json
 
 - **Règles du jeu** : toute modification des règles ou du déroulement d'une partie doit mettre à jour `docs/regles-implementees.md` dans le même lot, en distinguant ce qui est implémenté de ce qui reste provisoire.
 - **Décisions durables** : les choix d'interface ou de structure qui doivent survivre à la PR vont dans `docs/contexte-projet.md`.
-- **Déploiement Convex séparé de l'interface** : Vercel construit et publie l'interface automatiquement sur push vers `main` (via `npm run check`), mais ne déploie **pas** les fonctions Convex. Le déploiement Convex (`npx convex deploy`, ciblant la production `tough-gecko-249`) et l'application de mises à jour du catalogue restent des actions manuelles de Nicolas — une PR mergée sur l'interface n'implique pas automatiquement une mise à jour du backend en production.
+- **Déploiement Convex séparé de l'interface** : Vercel construit et publie l'interface après un push sur `main`, mais ne déploie **pas** les fonctions Convex. Leur déploiement et l'application des mises à jour du catalogue sont des actions distinctes du responsable de la publication. La procédure et les cibles actuelles sont dans la section « Publication » du [README](README.md#publication).
 - **Environnements** : le développement Convex (`grateful-warthog-543`) et la production (`tough-gecko-249`) ont des données distinctes. Ne pas supposer qu'elles sont synchronisées.
-
-## Ce que ce document ne couvre pas encore
-
-Le format de revue (qui, sous quel délai), les critères d'acceptation, et une éventuelle licence restent à définir avec Nicolas.
+- **Preview d'un fork** : Vercel peut demander l'autorisation d'un membre de l'équipe avant de déployer une PR venue d'un fork. Cette attente ne signifie pas, à elle seule, que le code ou les tests ont échoué.
